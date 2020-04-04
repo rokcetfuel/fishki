@@ -1,0 +1,154 @@
+
+.add {
+    .add-card {
+        box-shadow: var(--shadow);
+        background: var(--white);
+        border-radius: 25px;
+        margin: 15px 15px 0px 15px;
+        padding: 5px 0;
+
+        .add-card-title {
+            font-weight: 700;
+            color: var(--nav);
+            padding: 10px 15px;
+        }
+
+        .add-card-content {
+            margin: 0;
+            padding: 0;
+
+            .add-card-line {
+                display: block;
+                padding: 12px 15px;
+                border-top: 1px solid var( --main-divider);
+
+                &.add-card-line-full {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                &:first-child {
+                    border-top: none;
+                }
+
+                .add-card-line-label {
+                    font-weight: 700;
+                    padding-right: 5px;
+                }
+
+                .add-card-line-content {
+                    display: block;
+                    color: var(--mid-grey);
+
+                    .add-tags {
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin: 10px -5px -5px -5px;
+                    }
+
+                    .fas {
+                        display: inline-block;
+                        padding-left: 10px;
+                        color: var(--nav);
+                    }
+                    
+                    .add-input-fake {
+                        margin-top: 10px;
+                        color: inherit;
+                        border: none;
+                        display: inline-block;
+                        font-family: inherit;
+                        font-size: inherit;
+                        padding: none;
+                        background: transparent;
+                        width: 100%;
+                        padding: 0;
+                        line-height: 1.4;
+
+                        &:focus {
+                            outline: none;
+                            color: var(--text);
+                        }
+                    }
+                }
+
+                .add-card-line-content-inline {
+                    color: var(--mid-grey);
+                    line-height: 1.4;
+
+                    a {
+                        font-weight: 700;
+                        color: var(--main);
+                    }
+                }
+
+                .add-card-line-button {
+                    width: 100%;
+                    border-radius: 100px;
+                    background: var(--main-gradient);
+                    color: var(--white);
+                    padding: 12px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+/* Vue Switcher */
+$switcher: $main;
+$switcherMain: lighten($switcher, 5%);
+$switcherCircle: darken($switcher, 10%);
+$switcherUnchecked: lighten($switcher, 15%);
+$switcherUncheckedCircle: lighten($switcher, 5%);
+
+.vue-switcher-theme--fish {
+    &.vue-switcher-color--pink {
+        div {
+            background-color: $switcherMain;
+            &:after {background-color: $switcherCircle;}
+        }
+        &.vue-switcher--unchecked {
+            div {
+                background-color: $switcherUnchecked;
+                &:after {background-color: $switcherUncheckedCircle;}
+            }
+        }
+    }
+}
+
+.vue-switcher {
+    input {
+        left: 0;
+    }
+}
+
+/* Vue Select */
+
+.add-v-select {
+    width: 130px;
+
+    .vs__dropdown-toggle {
+        border-radius: 6px;
+        border-color: var(--white-grey);
+    }
+
+    &.vs--open .vs__dropdown-toggle {
+        border-radius: 0 0 6px 6px;
+        border-top-color: transparent;
+    }
+}
+
+[data-popper-placement='top-end'] {
+    border-radius: 6px 6px 0 6px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: var(--white-grey);
+    box-shadow: var(--shadow);
+}
+
+.vs__dropdown-option--highlight {
+    background: var(--main);
+    color: var(--white);
+}

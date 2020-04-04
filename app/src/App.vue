@@ -1,0 +1,46 @@
+<template>
+  <div id="app">
+    <Header></Header>
+    <div v-if="init" class="ready">
+      <div v-if="fresh">
+        <Fresh></Fresh>
+      </div>
+      <div v-else>
+        <router-view/>
+      </div>
+    </div>
+    <div v-else class="loading"></div>
+    <Navigation></Navigation>
+  </div>
+</template>
+
+<script>
+  import store from '@/store'
+  import Navigation from '@/components/Navigation.vue'
+  import Header from '@/components/Header.vue'
+  import Fresh from '@/views/Fresh.vue'
+
+  export default {
+    components: {
+      Header,
+      Navigation,
+      Fresh
+    },
+    beforeMount() {
+      store.commit('config')
+    },
+    mounted() {
+      console.log(store.state)
+    },
+    computed: {
+      fresh() {
+        if (store.state.setups) return false
+        else return true
+      },
+      init() {
+        if (store.state.init) return true
+        else return false
+      }
+    }
+  }
+</script>

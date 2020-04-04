@@ -1,0 +1,50 @@
+
+$rose: #d19c9c;
+
+$main: $rose;
+$main-light: lighten($main, 10%);
+$main-dark: darken($main, 10%);
+$main-gradient-bg: linear-gradient(160deg, lighten($main-light, 20%), lighten($main-dark, 20%));
+$main-gradient: linear-gradient(160deg, $main-light, $main-dark);
+$main-divider: lighten($main-dark, 33%);
+
+:root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --dark-grey: #3d3d3d;
+    --mid-grey: #7c7c7c;
+    --light-grey: #b6b6b6;
+    --white-grey: #e2e2e2;
+    --gradient-grey: linear-gradient(160deg, #d8d8d8, #dfdfdf);
+
+    --main: #{$main};
+    --main-light: #{$main-light};
+    --main-dark: #{$main-dark};
+    --main-gradient-bg: #{$main-gradient-bg};
+    --main-gradient: #{$main-gradient};
+    --main-divider: #{$main-divider};
+
+    --shadow: 0px 0px 15px 0px rgba(205, 205, 205, 0.33);
+    --shadow-dark: 0px 0px 20px -5px rgba(130, 60, 60, 0.66);
+    --header: 60px;
+    --fa-small: 18px;
+    --fa-menu: 24px;
+    --background: var(--main-gradient-bg);
+
+    --nav: var(--main);
+    --nav-light: var(--main-light);
+    --nav-dark: var(--main-dark);
+
+    --h1: var(--black);
+    --text: var(--dark-grey);
+    --small: var(--light-grey);
+}
+
+@font-face {
+    font-family: 'Black Jack';
+    src: url('../fonts/blackjack.woff') format('woff'),
+        url('../fonts/blackjack.ttf') format('truetype'),
+        url('../fonts/blackjack.eot') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}

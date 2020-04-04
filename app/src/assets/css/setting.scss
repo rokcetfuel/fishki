@@ -1,0 +1,141 @@
+
+.settings {
+    .settings-card {
+        box-shadow: var(--shadow);
+        background: var(--white);
+        border-radius: 25px;
+        margin: 15px 15px 0px 15px;
+        padding: 5px 0;
+
+        .settings-card-title {
+            font-weight: 700;
+            color: var(--nav);
+            padding: 10px 15px;
+        }
+
+        .settings-card-content {
+            margin: 0;
+            padding: 0;
+
+            .settings-card-line {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 15px;
+                border-top: 1px solid var( --main-divider);
+
+                .settings-card-line-label {
+                    font-weight: 700;
+                    padding-right: 5px;
+                }
+
+                .settings-card-line-content {
+                    color: var(--mid-grey);
+                    flex: 1;
+                    display: flex;
+                    justify-content: flex-end;
+
+                    .fas {
+                        display: inline-block;
+                        padding-left: 10px;
+                        color: var(--nav);
+                    }
+                    
+                    .settings-input-fake {
+                        color: inherit;
+                        text-align: right;
+                        border: none;
+                        display: inline-block;
+                        font-family: inherit;
+                        font-size: inherit;
+                        padding: none;
+                        background: transparent;
+                        width: 80%;
+
+                        &:focus {
+                            outline: none;
+                            color: var(--text);
+                        }
+                    }
+                }
+
+                .settings-card-line-content-inline {
+                    color: var(--mid-grey);
+                    line-height: 1.4;
+
+                    a {
+                        font-weight: 700;
+                        color: var(--main);
+                    }
+                }
+
+                .settings-card-line-button {
+                    width: 100%;
+                    border-radius: 100px;
+                    background: var(--main-gradient);
+                    color: var(--white);
+                    padding: 12px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+
+/* Vue Switcher */
+$switcher: $main;
+$switcherMain: lighten($switcher, 5%);
+$switcherCircle: darken($switcher, 10%);
+$switcherUnchecked: lighten($switcher, 15%);
+$switcherUncheckedCircle: lighten($switcher, 5%);
+
+.vue-switcher-theme--fish {
+    &.vue-switcher-color--pink {
+        div {
+            background-color: $switcherMain;
+            &:after {background-color: $switcherCircle;}
+        }
+        &.vue-switcher--unchecked {
+            div {
+                background-color: $switcherUnchecked;
+                &:after {background-color: $switcherUncheckedCircle;}
+            }
+        }
+    }
+}
+
+.vue-switcher {
+    input {
+        left: 0;
+    }
+}
+
+/* Vue Select */
+
+.settings-v-select {
+    width: 130px;
+
+    .vs__dropdown-toggle {
+        border-radius: 6px;
+        border-color: var(--white-grey);
+    }
+
+    &.vs--open .vs__dropdown-toggle {
+        border-radius: 0 0 6px 6px;
+        border-top-color: transparent;
+    }
+}
+
+[data-popper-placement='top-end'] {
+    border-radius: 6px 6px 0 6px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: var(--white-grey);
+    box-shadow: var(--shadow);
+}
+
+.vs__dropdown-option--highlight {
+    background: var(--main);
+    color: var(--white);
+}

@@ -1,0 +1,53 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    width: 100%;
+    height: var(--header);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: var(--white);
+    z-index:999;
+
+    /* Show/hide */
+    transform: translate3d(0, 0, 0);
+    transition: 0.3s all;
+
+    /* Show/hide */
+    &.header-hidden {
+        transition: 0.3s all;
+        box-shadow: none;
+        transform: translate3d(0, -100%, 0);
+    }
+
+    .header-back {
+        font-size: var(--fa-menu);
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 0;
+        color: var(--nav-light);
+    }
+
+    .header-text {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--nav-dark);
+
+        .header-app-title {
+            padding-top: 6px;
+            font-size: 32px;
+            font-family: 'Black Jack', serif;
+            color: var(--nav-dark);
+        }
+    }
+}
