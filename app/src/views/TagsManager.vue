@@ -33,7 +33,8 @@
                   </div>
                   <div class="tag-inner">
                     <div class="tag-box">
-                      <input v-bind:id="'tag' + tag.id" class="tag-box-input tagInput" type="text" v-model="tag.name" />
+                      <input @focus="watchEditFocus(tag, index)" @blur="watchEditBlur(tag, index)" 
+                        v-bind:id="'tag' + tag.id" class="tag-box-input tagInput" type="text" v-model="tag.name" />
                       <button @click="editTag(tag, index)" class="tag-box-submit">OK</button>
                     </div>
                   </div>
@@ -60,7 +61,8 @@
     data: () => { 
       return {
         newTag: '',
-        tagsChanged: 0
+        tagsChanged: 0,
+        lastEditedTag: ''
       }
     },
     computed: {
@@ -72,6 +74,9 @@
       },
     },
     methods: {
+      isHover(e) {
+        return (e.parentElement.querySelector(':hover') === e)
+      },
       openDelete(tag, index) {
         for (let thisTag of this.tags) thisTag.remove = false
         tag.remove = true
@@ -104,6 +109,23 @@
             setup: tagSetup,
             name: tagName
           })
+        }
+      },
+      watchEditFocus(tag, index) {
+        this.lastEditedTag = tag.name
+      },
+      watchEditBlur(tag, index) {
+        let indexOfElement = parseInt(index) + 1
+        let tagInput = document.getElementsByClassName('tagInput')[indexOfElement]
+        let tagOkButton = tagInput.parentNode.getElementsByTagName('button')[0]
+        let isOkHovered = this.isHover(tagOkButton)
+
+        if (!isOkHovered) {
+          tag.name = this.lastEditedTag
+          setTimeout(() => {
+            let tagInput2 = document.getElementsByClassName('tagInput')[indexOfElement]
+            autosizeInput(tagInput2)
+          }, 0)
         }
       },
       editTag(tag, index) {
