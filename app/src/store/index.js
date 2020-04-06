@@ -12,7 +12,8 @@ export default new Vuex.Store({
     setups: false,
     fish: false,
     tags: false,
-    sortingOpen: false
+    sortingOpen: false,
+    prono: false
   },
   mutations: {
 
@@ -28,6 +29,9 @@ export default new Vuex.Store({
             if (current.length > 0) {
               let currentData = {'id': current[0].id, 'code': current[0].code}
               state.current = currentData
+
+              let currentSetup = setups.filter(setup => setup.id === currentData.id)[0]
+              state.prono = currentSetup.prono
 
               db.table('fish').toArray().then((fish) => {
                 if (fish.length > 0) {
@@ -74,6 +78,7 @@ export default new Vuex.Store({
           db.table('current').put({'id': id, 'code': code}).then(() => {
             let currentData = {'id': id, 'code': code}
             state.current = currentData
+            state.prono = prono
 
             db.table('fish').toArray().then((fish) => {
               if (fish.length > 0) {
@@ -116,20 +121,21 @@ export default new Vuex.Store({
       db.table('setups').where('id').equals(setup).modify({prono: newProno}).then(() => {
         let currentSetupPosition = state.setups.map((thatSetup) => {return thatSetup.id}).indexOf(setup)
         state.setups[currentSetupPosition].prono = newProno
-        console.log(state.setups[currentSetupPosition].prono)
+        state.prono = newProno
       })
     },
 
     /* Switch / Set new current setup */
     /* Views: Settings */
     switchSetup(state, setup) {
-      let newSetup = state.setups.filter(thatSetup => thatSetup.id === setup)
-      let newSetupCode = newSetup[0].code
+      let newSetup = state.setups.filter(thatSetup => thatSetup.id === setup)[0]
+      let newSetupCode = newSetup.code
       
       db.table('current').clear().then(() => {
         db.table('current').put({'id': setup, 'code': newSetupCode}).then(() => {
           let currentData = {'id': setup, 'code': newSetupCode}
           state.current = currentData
+          state.prono = newSetup.prono
 
           db.table('fish').toArray().then((fish) => {
             if (fish.length > 0) {

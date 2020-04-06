@@ -15,7 +15,7 @@
             <textarea-autosize class="add-input-fake" placeholder="Translation..." v-model="fishTrans" />
           </span>
         </li>
-        <li class="add-card-line">
+        <li v-if="pronoOn" class="add-card-line">
           <span class="add-card-line-label">Pronounciation</span>
           <span class="add-card-line-content">
             <textarea-autosize class="add-input-fake" placeholder="Pronounciation..." v-model="fishProno" />
@@ -89,6 +89,9 @@
         if (store.state.tags.length > 0) {
           return store.state.tags.slice().reverse()
         } else return false
+      },
+      pronoOn() {
+        if (store.state.prono) return true
       }
     },
     methods: {
