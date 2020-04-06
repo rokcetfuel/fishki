@@ -16,7 +16,7 @@
 								<textarea-autosize class="add-input-fake" placeholder="Translation..." v-model="editedFishka.trans"/>
 							</span>
 						</li>
-						<li class="add-card-line">
+						<li v-if="pronoOn" class="add-card-line">
 							<span class="add-card-line-label">Pronounciation</span>
 							<span class="add-card-line-content">
 								<textarea-autosize class="add-input-fake" placeholder="Pronounciation..."  v-model="editedFishka.prono"/>
@@ -111,7 +111,10 @@ export default {
         this.tagsChanged++
 				return store.state.tags.slice().reverse()
 			} else return false
-		}
+    },
+    pronoOn() {
+      if (store.state.prono) return true
+    }
 	},
 	methods: {
 		saveEditedFish() {

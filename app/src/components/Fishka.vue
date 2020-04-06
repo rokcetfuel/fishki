@@ -4,7 +4,7 @@
       <div class="fish-phrase">
         <span>{{fishka.phrase}}</span>
       </div>
-      <div class="fish-prono">
+      <div v-if="pronoOn" class="fish-prono">
         <span>{{fishka.prono}}</span>
       </div>
       <div class="fish-trans">
@@ -26,6 +26,9 @@ export default {
         let thisFishka = store.state.fish.filter(fishy => fishy.id === this.id)
         return thisFishka[0]
       }
+    },
+    pronoOn() {
+      if (store.state.prono) return true
     }
   }
 }
