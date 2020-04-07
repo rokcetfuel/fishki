@@ -13,11 +13,17 @@ export default new Vuex.Store({
     fish: false,
     tags: false,
     sortingOpen: false,
-    prono: false
+    prono: false,
+    sortReverse: true,
+    sortBy: {
+      'value': 'created', 
+      'label': 'Date Created'
+    }
   },
   mutations: {
 
     /* Getting basic state in App Component */
+    /* Sets: init, setups, current, prono, fish, tags */
     config(state) {
       db.table('setups').toArray().then((setups) => {
         state.init = true
@@ -54,7 +60,7 @@ export default new Vuex.Store({
       })
     },
 
-    /* Get current view information - For Views */
+    /* Get current view information */
     setView(state, view) {
       state.view = view
     },
@@ -65,12 +71,29 @@ export default new Vuex.Store({
       state.sortingOpen = payload
     },
 
+    /* Sort by */
+    /* Views: Home */
+    sortBy(state, payload) {
+      state.sortBy = payload
+    },
+
+    /* Reverse Sort */
+    /* Views: Home */
+    reverseSort(state) {
+      state.sortReverse = !state.sortReverse
+    },
+
     /* Add new configuration and set it as default */
     /* Views: Settings */
     addNewSetup(state, payload) {
       let code = payload.code
       let name = payload.name
       let prono = payload.prono
+
+      state.sortBy = {
+        'value': 'created', 
+        'label': 'Date Created'
+      }
 
       db.table('setups').add({'code': code, 'name': name, 'prono': prono}).then((id) => {
         db.table('setups').toArray().then((setups) => {state.setups = setups})
@@ -118,6 +141,14 @@ export default new Vuex.Store({
       let newProno = payload.prono
       let setup = payload.setup
 
+      if (newProno == false) {
+        if (state.sortBy.value == 'prono') {
+          state.sortBy = {'value': 'created', 'label': 'Date Created'}
+        } else {
+          console.log('ehhhhh')
+        }
+      }
+
       db.table('setups').where('id').equals(setup).modify({prono: newProno}).then(() => {
         let currentSetupPosition = state.setups.map((thatSetup) => {return thatSetup.id}).indexOf(setup)
         state.setups[currentSetupPosition].prono = newProno
@@ -130,6 +161,11 @@ export default new Vuex.Store({
     switchSetup(state, setup) {
       let newSetup = state.setups.filter(thatSetup => thatSetup.id === setup)[0]
       let newSetupCode = newSetup.code
+
+      state.sortBy = {
+        'value': 'created', 
+        'label': 'Date Created'
+      }
       
       db.table('current').clear().then(() => {
         db.table('current').put({'id': setup, 'code': newSetupCode}).then(() => {
@@ -161,6 +197,11 @@ export default new Vuex.Store({
     deleteSetup(state, payload) {
       let setup = payload.setup
       let switchSetup = payload.switchSetup
+
+      state.sortBy = {
+        'value': 'created', 
+        'label': 'Date Created'
+      }
 
       db.table('tags').where('setup').equals(setup).delete().then(() => {
         db.table('fish').where('setup').equals(setup).delete().then(() => {

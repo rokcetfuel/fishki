@@ -2,10 +2,17 @@
   <div class="sort">
     <div class="sort-card">
       <ul class="sort-card-content">
-        <li class="sort-card-line sort-card-line-full">
+        <li v-if="sortingReady" class="sort-card-line sort-card-line-full">
           <span class="sort-card-line-label">Sort by</span>
           <span class="sort-card-line-content">
-            <v-select class="sort-v-select" v-model="selectedSort" :options="['ok', 'nieok']" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
+            <span @click="switchSort" class="sort-direction-wrapper">
+              <span v-if="sortReverse" class="sort-direction"><i class="fas fa-sort-amount-up"></i></span>
+              <span v-else class="sort-direction"><i class="fas fa-sort-amount-down"></i></span>
+            </span>
+            <v-select v-if="pronoOn" class="sort-v-select" v-model="sortingSeleted" :options="sortingOptions" 
+              :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
+            <v-select v-else class="sort-v-select" v-model="sortingSeleted" :options="sortingOptionsNoProno" 
+              :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="sort-card-line sort-card-line-tags">
@@ -54,7 +61,7 @@
         </li>
         <li class="sort-card-line">
           <span class="sort-card-line-content">
-            <button class="sort-card-line-button" v-on:click="applySort">Ok</button>
+            <button class="sort-card-line-button" @click="applySort">Ok</button>
           </span>
         </li>
       </ul>
@@ -74,15 +81,50 @@ export default {
   name: 'Sort',
   data: () => {
     return {
-      selectedSort: false,
-      
+      sortingSeleted: '',
+
+      sortingOptions: [
+        {'value': 'created', 'label': 'Date Created'},
+        {'value': 'edited', 'label': 'Date Edited'},
+        {'value': 'phrase', 'label': 'Phrase'},
+        {'value': 'trans', 'label': 'Translation'},
+        {'value': 'prono', 'label': 'Pronunciation'}
+      ],
+
+      sortingOptionsNoProno: [
+        {'value': 'created', 'label': 'Date Created'},
+        {'value': 'edited', 'label': 'Date Edited'},
+        {'value': 'phrase', 'label': 'Phrase'},
+        {'value': 'trans', 'label': 'Translation'}
+      ],
+
       /* Diffent */
       Deselect: {render: createElement => createElement('span', '')},
     }
   },
+  computed: {
+    sortingReady() {
+      if (store.state.sortBy) {
+        if (this.sortingSeleted == '') this.sortingSeleted = { ...store.state.sortBy }
+        return true
+      } else return false
+    },
+    sortReverse() {
+      if (store.state.sortReverse) return true
+      else return false
+    },
+    pronoOn() {
+      if (store.state.prono) return true
+    }
+  },
   methods: {
+    switchSort() {
+      store.commit('reverseSort')
+    },
     applySort() {
+      store.commit('sortBy', this.sortingSeleted)
       store.commit('setSorting', false)
+      /* sort by tags */
     },
     withPopper (dropdownList, component, {width}) {
       dropdownList.style.width = width

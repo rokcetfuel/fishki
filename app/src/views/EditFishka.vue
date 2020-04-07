@@ -58,13 +58,13 @@
 						<li class="add-card-line add-card-line-full">
 							<span class="add-card-line-label">Created</span>
 							<span class="add-card-line-content">
-							{{editedFishka.date.toLocaleDateString()}}
+							{{editedFishka.date.toLocaleString()}}
 							</span>
 						</li>
 						<li class="add-card-line add-card-line-full">
 							<span class="add-card-line-label">Edited</span>
 							<span class="add-card-line-content">
-							{{editedFishka.edit.toLocaleDateString()}}
+							{{editedFishka.edit.toLocaleString()}}
 							</span>
 						</li>
 						<li class="add-card-line">
