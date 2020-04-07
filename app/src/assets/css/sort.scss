@@ -37,8 +37,19 @@
         }
 
         .sort-card-line-content {
-          display: block;
+          display: flex;
           color: var(--mid-grey);
+
+          .sort-direction-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .fas {
+              padding: 5px 10px;
+              cursor: pointer;
+            }
+          }
 
           .sort-tags {
             display: flex;
