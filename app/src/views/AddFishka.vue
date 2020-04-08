@@ -1,6 +1,25 @@
 <template>
   <div class="add view">
     
+    <div class="add-card add-quick-fish" :class="{ 'add-quick-fish-done' : quickFishFilled }">
+      <ul class="add-card-content">
+        <li class="add-card-line add-quick-fish-top">
+          <span class="add-card-line-label">Quick fishka</span>
+          <span @click="reopenQuickFish" class="add-card-line-content add-quick-fish-top-ok">
+            <i class="fas fa-keyboard"></i>
+          </span>
+          <span class="add-card-line-content add-quick-fish-top-wait">
+            <textarea-autosize class="add-input-fake" 
+            placeholder="Write the phrase in your source language..." v-model="fishQuick" />
+          </span>
+        </li>
+        <li class="add-card-line add-quick-fish-confirm">
+          <span class="add-card-line-content">
+            <button class="add-card-line-button" @click="fillQuickFish">Ok</button>
+          </span>
+        </li>
+      </ul>
+    </div>
     <div class="add-card">
       <ul class="add-card-content">
         <li class="add-card-line">
@@ -61,16 +80,21 @@
 <script>
   import Vue from 'vue'
   import store from '@/store'
+  import '@/mixins'
   import TextareaAutosize from 'vue-textarea-autosize'
   Vue.use(TextareaAutosize)
   import VueInputAutowidth from 'vue-input-autowidth'
   Vue.use(VueInputAutowidth)
   const autosizeInput = require('autosize-input')
+  const pinyin = require("chinese-to-pinyin")
 
   export default {
     name: 'AddFishka',
     data: () => { 
       return {
+        quickFishFilled: false,
+        quickFishError: false,
+        fishQuick: '',
         fishPhrase: '',
         fishTrans: '',
         fishProno: '',
@@ -85,6 +109,9 @@
       autosizeInput(document.querySelector('#newTagInput'))
     },
     computed: {
+      currentCode() {
+        if (store.state.current.code) return store.state.current.code
+      },
       currentSetupTags() {
         if (store.state.tags.length > 0) {
           return store.state.tags.slice().reverse()
@@ -95,6 +122,24 @@
       }
     },
     methods: {
+      fillQuickFish() {
+        let text = this.fishQuick
+        let phraseLangCode = this.currentCode.substring(3, 5)
+        this.getTranslation(text, this.currentCode).then((result) => {
+          if (result) {
+            this.quickFishFilled = true
+            this.fishTrans = text
+            this.fishPhrase = result
+            if (phraseLangCode == 'zh') this.fishProno = pinyin(result, { keepRest: true })
+          } else {
+            // Deal with this during validation
+            // this.quickFishError = true
+          }
+        })
+      },
+      reopenQuickFish() {
+        this.quickFishFilled = false
+      },
       addNewFish() {
         let setup = store.state.current.id
         let phrase = this.fishPhrase
@@ -136,6 +181,9 @@
             name: tagName
           })
         }
+      },
+      getAddTranslation() {
+
       }
     }
   }
