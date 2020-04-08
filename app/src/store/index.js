@@ -18,7 +18,9 @@ export default new Vuex.Store({
     sortBy: {
       'value': 'created', 
       'label': 'Date Created'
-    }
+    },
+    selectedTags: [],
+    finalSelectedTags: []
   },
   mutations: {
 
@@ -73,9 +75,22 @@ export default new Vuex.Store({
 
     /* Sort by */
     /* Views: Home */
-    sortBy(state, payload) {
-      state.sortBy = payload
+    sortBy(state, sorting) {
+      state.sortBy = sorting
     },
+
+    /* Sort by tags */
+    /* Views: Home */
+    sortByTags(state, tags) {
+      state.selectedTags = tags
+    },
+
+    /* Sort by tags */
+    /* Views: Home */
+    sortByFinalTags(state, tags) {
+      state.finalSelectedTags = tags
+    },
+
 
     /* Reverse Sort */
     /* Views: Home */
@@ -94,6 +109,9 @@ export default new Vuex.Store({
         'value': 'created', 
         'label': 'Date Created'
       }
+
+      state.selectedTags = []
+      state.finalSelectedTags = []
 
       db.table('setups').add({'code': code, 'name': name, 'prono': prono}).then((id) => {
         db.table('setups').toArray().then((setups) => {state.setups = setups})
@@ -166,6 +184,9 @@ export default new Vuex.Store({
         'value': 'created', 
         'label': 'Date Created'
       }
+
+      state.selectedTags = []
+      state.finalSelectedTags = []
       
       db.table('current').clear().then(() => {
         db.table('current').put({'id': setup, 'code': newSetupCode}).then(() => {
@@ -202,6 +223,9 @@ export default new Vuex.Store({
         'value': 'created', 
         'label': 'Date Created'
       }
+
+      state.selectedTags = []
+      state.finalSelectedTags = []
 
       db.table('tags').where('setup').equals(setup).delete().then(() => {
         db.table('fish').where('setup').equals(setup).delete().then(() => {
