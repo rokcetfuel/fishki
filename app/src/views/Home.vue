@@ -3,6 +3,8 @@
     <div class="home-all">
       <Sort v-if="sortingOpen"></Sort>
       <Fishka v-for="fish in allFish" :key="fish.id" :id="fish.id"></Fishka>
+      <div v-if="nothingHere"></div>
+      <div v-if="nothingHereYet"></div>
     </div>
   </div>
 </template>
@@ -20,28 +22,56 @@ export default {
   },
   data: () => {
     return {
-      sortOpen: false
+      sortOpen: false,
+      fishLoaded: false,
+      nothingHere: false,
+      nothingHereYet: false
     }
   },
   computed: {
     sortingOpen() {
       return store.state.sortingOpen
     },
-    allFish() {
-      if (store.state.fish.length > 0) {
-        let fishArray = store.state.fish.slice()
-        let sortedFish = []
-
-        if (store.state.sortBy.value == 'created')      sortedFish = fishArray.sort(this.byCreated)
-        else if (store.state.sortBy.value == 'edited')  sortedFish = fishArray.sort(this.byEdited)
-        else if (store.state.sortBy.value == 'phrase')  sortedFish = fishArray.sort(this.byPhrase)
-        else if (store.state.sortBy.value == 'trans')   sortedFish = fishArray.sort(this.byTrans)
-        else if (store.state.sortBy.value == 'prono')   sortedFish = fishArray.sort(this.byProno)
-        else sortedFish = fishArray.sort(this.byCreated)
-          
-        if (store.state.sortReverse) return sortedFish.reverse()
-        else return sortedFish
+    selectedTags() {
+      if (store.state.selectedTags.length > 0) {
+        return store.state.selectedTags.slice()
       } else return false
+    },
+    allFish() {
+      if (store.state.fish) {
+        this.fishLoaded = true
+
+        if (store.state.fish.length > 0) {
+          this.nothingHereYet = false
+          let fishArrayBeforeTags = store.state.fish.slice()
+          let fishArray = fishArrayBeforeTags
+
+          if (store.state.finalSelectedTags.length > 0) {
+            let selectedTags = store.state.finalSelectedTags.slice()
+            fishArray = fishArrayBeforeTags.filter((fishka) => {
+              return selectedTags.every(i => fishka.tags.includes(i))
+            })
+          }
+
+          let sortedFish = []
+          if (store.state.sortBy.value == 'edited')       sortedFish = fishArray.sort(this.byEdited)
+          else if (store.state.sortBy.value == 'phrase')  sortedFish = fishArray.sort(this.byPhrase)
+          else if (store.state.sortBy.value == 'trans')   sortedFish = fishArray.sort(this.byTrans)
+          else if (store.state.sortBy.value == 'prono')   sortedFish = fishArray.sort(this.byProno)
+          else sortedFish = fishArray.sort(this.byCreated)
+
+          if (sortedFish.length == 0) this.nothingHere = true
+          else this.nothingHere = false
+            
+          if (store.state.sortReverse) return sortedFish.reverse()
+          else return sortedFish 
+        } else {
+          this.nothingHereYet = true
+          return false
+        }
+      } else {
+        return false
+      }
     }
   },
   methods: {
