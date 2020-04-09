@@ -32,6 +32,7 @@
         </li>
         <li class="sort-card-line">
           <span class="sort-card-line-content">
+            <button class="sort-card-line-button sort-card-line-close" @click="closeSort">Cancel</button>
             <button class="sort-card-line-button" @click="applySort">Ok</button>
           </span>
         </li>
@@ -124,6 +125,9 @@ export default {
   methods: {
     switchSort() {
       store.commit('reverseSort')
+    },
+    closeSort() {
+      store.commit('setSorting', false)
     },
     applySort() {
       store.commit('sortBy', this.sortingSeleted)
