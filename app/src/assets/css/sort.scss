@@ -91,6 +91,12 @@
           padding: 12px;
           font-weight: 600;
         }
+
+        .sort-card-line-close {
+          background: var(--gradient-grey);
+          margin-right: 10px;
+          width: 150px;
+        }
       }
     }
   }
@@ -99,7 +105,7 @@
 /* Vue Select */
 
 .sort-v-select {
-  width: 180px;
+  width: 160px;
 
   .vs__dropdown-toggle {
     border-radius: 6px;

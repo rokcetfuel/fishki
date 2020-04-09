@@ -1,7 +1,7 @@
 <template>
   <div class="add view">
-    
-    <div class="add-card add-quick-fish" :class="{ 'add-quick-fish-done' : quickFishFilled }">
+
+    <div v-if="isOnline" class="add-card add-quick-fish" :class="{ 'add-quick-fish-done' : quickFishFilled }">
       <ul class="add-card-content">
         <li class="add-card-line add-quick-fish-top">
           <span class="add-card-line-label">Quick fishka</span>
@@ -19,7 +19,18 @@
           </span>
         </li>
       </ul>
-    </div>
+    </div> 
+    <div v-if="isOffline" class="add-card add-quick-fish">
+      <ul class="add-card-content">
+        <li class="add-card-line add-quick-fish-top">
+          <span class="add-card-line-label">Quick fishka</span>
+          <span class="add-card-line-content add-quick-fish-top-wait">
+            <span class="add-input-fake">Sorry, you need to be online in order to use quick fishka.</span>
+          </span>
+        </li>
+      </ul>
+    </div> 
+  
     <div class="add-card">
       <ul class="add-card-content">
         <li class="add-card-line">
@@ -88,6 +99,9 @@
   const autosizeInput = require('autosize-input')
   const pinyin = require("chinese-to-pinyin")
 
+  import VueOffline from 'vue-offline'
+  Vue.use(VueOffline)
+
   export default {
     name: 'AddFishka',
     data: () => { 
@@ -99,7 +113,11 @@
         fishTrans: '',
         fishProno: '',
         fishTags: [],
-        newTag: ''
+        newTag: '',
+
+        onLine: null,
+        onlineSlot: 'online',
+        offlineSlot: 'offline',
       }
     },
     beforeMount: function () {

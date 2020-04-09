@@ -24,6 +24,15 @@
                 padding: 12px 15px;
                 border-top: 1px solid var( --main-divider);
 
+                &.settings-card-line-link {
+                  cursor: pointer;
+                  color: var(--text);
+
+                  &:hover {
+                    opacity: 0.66;
+                  } 
+                }
+
                 .settings-card-line-label {
                     font-weight: 700;
                     padding-right: 5px;

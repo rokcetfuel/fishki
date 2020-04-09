@@ -28,7 +28,7 @@
             </span>
         </li>
         <router-link to="tags">
-          <li class="settings-card-line">
+          <li class="settings-card-line settings-card-line-link">
             <span class="settings-card-line-label">Tags manager</span>
             <span class="settings-card-line-content">
               <i class="fas fa-arrow-right"></i>
@@ -48,7 +48,7 @@
         <span>Switch setup</span>
       </div>
       <ul class="settings-card-content">
-        <li class="settings-card-line" @click="switchSetup(setup.id)" v-for="setup in allSetups" :key="setup.id">
+        <li class="settings-card-line settings-card-line-link" @click="switchSetup(setup.id)" v-for="setup in allSetups" :key="setup.id">
           <span class="settings-card-line-label">{{setup.name}}</span>
           <span class="settings-card-line-content"><i class="fas fa-arrow-right"></i></span>
         </li>

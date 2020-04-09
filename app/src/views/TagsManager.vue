@@ -28,7 +28,7 @@
                     </button>
                     <div class="tag-edit-delete-confirm">
                       <button @click="deleteTag(tag, index)" class="tag-edit-delete-confirm-btn yes">Delete</button>
-                      <button @click="closeDelete(tag, index)" class="tag-edit-delete-confirm-btn no">Come back</button>
+                      <button @click="closeDelete(tag, index)" class="tag-edit-delete-confirm-btn no">Cancel</button>
                     </div>
                   </div>
                   <div class="tag-inner">
