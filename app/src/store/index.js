@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { db } from '@/config'
+import '@/mixins'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,9 @@ export default new Vuex.Store({
       'label': 'Date Created'
     },
     selectedTags: [],
-    finalSelectedTags: []
+    finalSelectedTags: [],
+    quote: false,
+    firstQuote: true
   },
   mutations: {
 
@@ -46,7 +49,7 @@ export default new Vuex.Store({
                   let currentFish = fish.filter(fishka => fishka.setup === currentData.id)
                   if (currentFish.length > 0) state.fish = currentFish
                   else state.fish = []
-                }
+                } else state.fish = []
               })
 
               db.table('tags').toArray().then((tags) => {
@@ -54,7 +57,7 @@ export default new Vuex.Store({
                   let currentTags = tags.filter(tag => tag.setup === currentData.id)
                   if (currentTags.length > 0) state.tags = currentTags
                   else state.tags = []
-                }
+                } else state.tags = []
               })
             } 
           })
@@ -65,6 +68,16 @@ export default new Vuex.Store({
     /* Get current view information */
     setView(state, view) {
       state.view = view
+    },
+
+    /* Set quote */
+    setQuote(state, quote) {
+      state.quote = quote
+    },
+
+    /* Set first quote */
+    setFirstQuoteDone(state, huh) {
+      state.firstQuote = huh
     },
 
     /* Open sorting */
