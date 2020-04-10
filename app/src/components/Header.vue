@@ -23,6 +23,7 @@
     computed: {
       ifFixed() {
         if (store.state.view == 'settings') return true
+        if (store.state.view == 'fresh') return true
         else return false
       },
       viewTitle() {
@@ -58,7 +59,7 @@
       onScroll () {
         const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
         if (currentScrollPosition < 0) return
-        if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 0) return
+        if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) return
         this.showHeader = currentScrollPosition < this.lastScrollPosition
         this.lastScrollPosition = currentScrollPosition
       }

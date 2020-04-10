@@ -14,13 +14,13 @@
         <li class="fresh-card-line">
           <span class="fresh-card-line-label">Phrases</span>
           <span class="fresh-card-line-content">
-            <v-select class="fresh-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
+            <v-select :searchable="false" class="fresh-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="fresh-card-line">
           <span class="fresh-card-line-label">Translations</span>
           <span class="fresh-card-line-content">
-            <v-select class="fresh-v-select" v-model="selectedTransLang" :options="translationLanguages" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
+            <v-select :searchable="false" class="fresh-v-select" v-model="selectedTransLang" :options="translationLanguages" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="fresh-card-line">
@@ -71,7 +71,7 @@ export default {
     }
   },
   beforeMount: function() {
-    this.$router.push('/')
+    if (this.$route.name != 'Home') this.$router.push('/')
     store.commit('setView', 'fresh')
   },
   methods: {

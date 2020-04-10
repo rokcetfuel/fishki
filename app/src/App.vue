@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="app-background"></div>
     <Header></Header>
     <div v-if="init" class="ready">
       <div v-if="fresh">
@@ -26,12 +27,6 @@
       Navigation,
       Fresh
     },
-    beforeMount() {
-      store.commit('config')
-    },
-    mounted() {
-      console.log(store.state)
-    },
     computed: {
       fresh() {
         if (store.state.setups) return false
@@ -41,6 +36,9 @@
         if (store.state.init) return true
         else return false
       }
+    },
+    beforeMount() {
+      store.commit('config')
     }
   }
 </script>
