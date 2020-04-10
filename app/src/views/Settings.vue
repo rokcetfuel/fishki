@@ -58,8 +58,12 @@
     <div class="settings-card">
       <div class="settings-card-title">
         <span>Create new setup</span>
+        <span @click="toggleCreate">
+          <i v-if="createOpen" class="fas fa-angle-double-up"></i>
+          <i v-else class="fas fa-angle-double-down"></i>
+        </span>
       </div>
-      <ul class="settings-card-content">
+      <ul v-if="createOpen" class="settings-card-content">
         <li class="settings-card-line">
           <span class="settings-card-line-label">Name</span>
           <span class="settings-card-line-content">
@@ -69,14 +73,14 @@
         <li class="settings-card-line">
           <span class="settings-card-line-label">Phrases</span>
           <span class="settings-card-line-content">
-            <v-select class="settings-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" 
+            <v-select :searchable="false" class="settings-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="settings-card-line">
           <span class="settings-card-line-label">Translations</span>
           <span class="settings-card-line-content">
-            <v-select class="settings-v-select" v-model="selectedTransLang" :options="translationLanguages" 
+            <v-select :searchable="false" class="settings-v-select" v-model="selectedTransLang" :options="translationLanguages" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
@@ -153,6 +157,7 @@
         
         /* Diffent */
         Deselect: {render: createElement => createElement('span', '')},
+        createOpen: false,
       }
     },
     computed: {
@@ -187,6 +192,10 @@
       }
     },
     methods: {
+
+      toggleCreate() {
+        this.createOpen = !this.createOpen
+      },
 
       /* Editing setup name */
       getCurrentSetupOldName() {

@@ -11,6 +11,12 @@
             font-weight: 700;
             color: var(--nav);
             padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+
+            .fas {
+              cursor: pointer;
+            }
         }
 
         .settings-card-content {

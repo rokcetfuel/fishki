@@ -2,66 +2,86 @@
     box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overscroll-behavior: none;
+}
+
 body {
-    margin: 0;
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #e5c6c7;
 }
 
 a, button {
-    text-decoration: none;
-    color: var(--black);
+  text-decoration: none;
+  color: var(--black);
 
-    &:hover,
-    &:active {
-        -webkit-tap-highlight-color: transparent;
-    }
+  &:hover,
+  &:active {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 button {
-    cursor: pointer;
-    border: none;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    overflow: visible;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    line-height: normal;
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-    -webkit-appearance: none;
-    outline: none;
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+  outline: none;
 
-    &:hover {
-      opacity: 0.8;
-    }
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    padding: 0;
-    color: var(--h1);
+  margin: 0;
+  padding: 0;
+  color: var(--h1);
 }
 
 ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 /* App */
 
 #app {
-    position: relative;
-    width: 100vw;
-    min-height: 100vh;
-    background: var(--background);
-    background-attachment: fixed;
+  position: relative;
+  width: 100vw;
+  min-height: 100%;
 }
 
 .view {
-    padding-top: var(--header);
-    padding-bottom: 15px;
+  padding-top: var(--header);
+  padding-bottom: 15px;
+}
+
+.app-background {
+  position: fixed;
+  z-index: -10;
+  pointer-events: none;
+  top: -200px;
+  bottom: -200px;
+  right: 0;
+  left: 0;
+  background: var(--background);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 125%;
 }

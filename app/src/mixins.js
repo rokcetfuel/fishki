@@ -15,6 +15,20 @@ Vue.mixin({
           resolve(false)
         })
       })
+    },
+    getQuote() {
+      return new Promise((resolve, reject) => {
+        fetch(`https://quote-garden.herokuapp.com/api/v2/quotes/random`)
+        .then((response) => response.json())
+        .then((data) => {
+          let result = data.quote
+          resolve(result)
+        })
+        .catch((error) => {
+          console.error('Could not get quote... ', error)
+          resolve(false)
+        })
+      })
     }
   }
 })

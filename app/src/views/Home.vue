@@ -3,8 +3,44 @@
     <div class="home-all">
       <Sort v-if="sortingOpen"></Sort>
       <Fishka v-for="fish in allFish" :key="fish.id" :id="fish.id"></Fishka>
-      <div v-if="nothingHere"></div>
-      <div v-if="nothingHereYet"></div>
+
+      <div v-if="nothingHere">
+        <div class="fish">
+          <div class="fish-inner">
+            <div class="fish-empty">
+              <span class="fish-emtpty-header">Nothing here, buddie</span>
+              <span class="fish-emtpty-text">Sorry, nothing matched your filters</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="nothingHereYet">
+        <div class="fish">
+          <router-link class="fish-inner" to="/add">
+            <div class="fish-empty">
+              <span class="fish-emtpty-header">Nothing here yet...</span>
+              <span class="fish-emtpty-text">Create your first fishka!</span>
+            </div>
+          </router-link>
+        </div>
+      </div>
+
+      <div v-if="quote" class="home-quote">
+        <div class="quote" :class="{ 'quote-ready' : quoteReady && quoteChanged }">
+          <div class="quote-text">
+            <span>{{quote.quoteText}}</span>
+          </div>
+          <div class="quote-author">
+            <span>{{quote.quoteAuthor}}</span>
+          </div>
+          <div class="quote-dots">
+            <span class="dot lg">.</span>
+            <span class="dot md">.</span>
+            <span class="dot sm">.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +61,10 @@ export default {
       sortOpen: false,
       fishLoaded: false,
       nothingHere: false,
-      nothingHereYet: false
+      nothingHereYet: false,
+      firstQuote: true,
+      quoteReady: false,
+      quoteChanged: false,
     }
   },
   computed: {
@@ -72,6 +111,16 @@ export default {
       } else {
         return false
       }
+    },
+    quote() {
+      if (store.state.quote) {
+        if (this.quoteReady == false) {
+          if (store.state.firstQuote) {
+            setTimeout(() => {this.quoteReady = true}, 500)
+            store.commit('setFirstQuoteDone', false)
+          } else this.quoteReady = true
+        } return { ...store.state.quote }
+      } else return false
     }
   },
   methods: {
@@ -101,8 +150,14 @@ export default {
       else return 0
     }
   },
+  watch: {
+    quote() {
+      this.quoteChanged = true
+    }
+  },
   beforeMount: function () {
     store.commit('setView', 'home')
-  }
+    this.getQuote().then(result => store.commit('setQuote', result))
+  },
 }
 </script>

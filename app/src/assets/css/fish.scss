@@ -44,4 +44,22 @@
             }
         }
     }
+
+    .fish-empty {
+      padding: 4px;
+
+      .fish-emtpty-header {
+        display: block;
+        font-size: 24px;
+        color: var(--nav-dark);
+        padding-bottom: 6px;
+      }
+
+      .fish-emtpty-text {
+        display: block;
+        font-size: 16px;
+        color: var(--small);
+        padding-bottom: 2px;
+      }
+    }
 }

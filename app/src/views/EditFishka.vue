@@ -177,10 +177,6 @@ export default {
   },
 	beforeMount() {
 		store.commit('setView', 'single')
-  },
-  beforeDestroy() {
-    // Clear this shit
-    console.log(this.editedFishka)
   }
 }
 </script>

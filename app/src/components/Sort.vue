@@ -9,9 +9,9 @@
               <span v-if="sortReverse" class="sort-direction"><i class="fas fa-sort-amount-up"></i></span>
               <span v-else class="sort-direction"><i class="fas fa-sort-amount-down"></i></span>
             </span>
-            <v-select v-if="pronoOn" class="sort-v-select" v-model="sortingSeleted" :options="sortingOptions" 
+            <v-select :searchable="false" v-if="pronoOn" class="sort-v-select" v-model="sortingSeleted" :options="sortingOptions" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
-            <v-select v-else class="sort-v-select" v-model="sortingSeleted" :options="sortingOptionsNoProno" 
+            <v-select :searchable="false" v-else class="sort-v-select" v-model="sortingSeleted" :options="sortingOptionsNoProno" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
@@ -111,7 +111,7 @@ export default {
           }
 
           if (includedTags.length > 0) return includedTags.reverse()
-          else return includedTags
+          else return false
         }
 
         return false

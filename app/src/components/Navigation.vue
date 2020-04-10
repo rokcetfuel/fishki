@@ -22,13 +22,8 @@ export default {
   },
   computed: {
     ifNav() {
-      if (store.state.view == 'settings') return false
-      if (store.state.view == 'single') return false
-      if (store.state.view == 'fresh') return false
-      if (store.state.view == 'tags') return false
-      if (store.state.view == 'add') return false
-      if (store.state.sortingOpen) return false
-      else return true
+      if (store.state.view == 'home' && !store.state.sortingOpen) return true
+      return false
     },
   },
   mounted() {
