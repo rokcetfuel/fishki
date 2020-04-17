@@ -7,19 +7,19 @@
 						<li class="add-card-line">
 							<span class="add-card-line-label">Phrase</span>
 							<span class="add-card-line-content">
-								<textarea-autosize class="add-input-fake" placeholder="Phrase..." v-model="editedFishka.phrase"/>
+								<textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Phrase..." v-model="editedFishka.phrase"/>
 							</span>
 						</li>
 						<li class="add-card-line">
 							<span class="add-card-line-label">Translation</span>
 							<span class="add-card-line-content">
-								<textarea-autosize class="add-input-fake" placeholder="Translation..." v-model="editedFishka.trans"/>
+								<textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Translation..." v-model="editedFishka.trans"/>
 							</span>
 						</li>
 						<li v-if="pronoOn" class="add-card-line">
 							<span class="add-card-line-label">Pronounciation</span>
 							<span class="add-card-line-content">
-								<textarea-autosize class="add-input-fake" placeholder="Pronounciation..."  v-model="editedFishka.prono"/>
+								<textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Pronounciation..."  v-model="editedFishka.prono"/>
 							</span>
 						</li>
 						<li class="add-card-line add-card-line-tags">
@@ -29,7 +29,7 @@
 									<div class="tag tag-new">
 										<div class="tag-inner">
 											<div class="tag-box">
-												<input class="tag-box-input" id="newTagInput" autocomplete="off" 
+												<input @focus="clearValidation" class="tag-box-input" id="newTagInput" autocomplete="off" 
 													type="text" v-model="newTag" placeholder="New tag?" />
 												<button class="tag-box-submit" @click="addNewTag">OK</button>
 											</div>
@@ -37,7 +37,7 @@
 									</div>
 									<div class="tag" v-for="tag in currentSetupTags" :key= "tag.id">
 										<div class="tag-inner">
-											<input class="tag-input" :value="tag.id" v-model="editedFishka.tags" type="checkbox"/>
+											<input @focus="clearValidation" class="tag-input" :value="tag.id" v-model="editedFishka.tags" type="checkbox"/>
 											<div class="tag-box">
 												<span>{{tag.name}}</span>
 											</div>
@@ -46,6 +46,15 @@
 								</div>
 							</span>
 						</li>
+            <li class="add-card-line add-card-line-error" v-if="tagExistsError">
+              <span>Tag already exists</span>
+            </li>
+            <li class="add-card-line add-card-line-error" v-if="emptyTagError">
+              <span>Tag can't be empty</span>
+            </li>
+            <li class="add-card-line add-card-line-error" v-if="emptyFishError">
+              <span>Phrase and translation can't be empty</span>
+            </li>
 						<li class="add-card-line">
 							<span class="add-card-line-content">
 							<button @click="saveEditedFish" class="add-card-line-button">Save changes</button>
@@ -68,8 +77,12 @@
 							</span>
 						</li>
 						<li class="add-card-line">
-							<span class="add-card-line-content">
-							<button @click="deleteFish" class="add-card-line-button">Delete fishka</button>
+              <span v-if="deleteOpen" class="add-card-line-content add-card-line-content-buttons">
+							  <button @click="closeDeleteFish" class="add-card-line-button add-card-line-button-grey">Cancel</button>
+                <button @click="deleteFish" class="add-card-line-button">Confirm</button>
+							</span>
+							<span v-else class="add-card-line-content">
+							  <button @click="openDeleteFish" class="add-card-line-button">Delete fishka</button>
 							</span>
 						</li>
 					</ul>
@@ -95,7 +108,12 @@ export default {
 		return {
       newTag: '',
       tagsChanged: 0,
-      editedFishka: false
+      editedFishka: false,
+      deleteOpen: false,
+
+      emptyFishError: false,
+      emptyTagError: false,
+      tagExistsError: false,
 		}
 	},
 	computed: {
@@ -117,6 +135,13 @@ export default {
     }
 	},
 	methods: {
+
+    clearValidation() {
+      this.emptyFishError = false
+      this.emptyTagError = false
+      this.tagExistsError = false
+    },
+
 		saveEditedFish() {
       let fishid = this.id
 			let phrase = this.editedFishka.phrase
@@ -124,47 +149,64 @@ export default {
 			let prono = this.editedFishka.prono
 			let tags = this.editedFishka.tags
 
-			store.commit('editFish', {
-				phrase: phrase,
-				trans: trans,
-				prono: prono,
-				tags: tags,
-				fishid: fishid
-			})
-
-			this.$router.push('/')
-		},
+      if (phrase == '' || trans == '') {
+        this.emptyFishError = true
+      } else {
+        this.emptyFishError = false
+        store.commit('editFish', {
+          phrase: phrase,
+          trans: trans,
+          prono: prono,
+          tags: tags,
+          fishid: fishid
+        })
+        this.$router.push('/')
+      }
+    },
+    
 		deleteFish() {
 			let fishid = this.id
-			store.commit('deleteFish', fishid)
-			this.$router.push('/')
-		},
+      store.commit('deleteFish', fishid)
+      this.deleteOpen = false
+      this.$router.push('/')
+    },
+    
+    openDeleteFish() {
+      this.deleteOpen = true
+    },
+
+    closeDeleteFish() {
+      this.deleteOpen = false
+    },
+
 		addNewTag() {
 			let allTags = store.state.tags
 			let tagSetup = store.state.current.id
 			let tagName = this.newTag
 			let tagExists = false
 
-			if (allTags) {
-				let allTagsNames = allTags.map((tag) => {
-					return tag.name
-				})
-				tagExists = allTagsNames.includes(tagName)
-			}
+			if (tagName == '') {
+        this.emptyTagError = true
+      } else {
+        if (allTags) {
+          let allTagsNames = allTags.map((tag) => {return tag.name})
+          tagExists = allTagsNames.includes(tagName)
+        }
 
-			if (tagExists) {
-				console.log('Tag exists already...')
-				document.querySelector('#newTagInput').focus()
-			} else {
-				this.newTag = ''
-				document.querySelector('#newTagInput').value = ''
-				document.querySelector('#newTagInput').blur()
-				autosizeInput(document.querySelector('#newTagInput'))
-				store.commit('addNewTag', {
-					setup: tagSetup,
-					name: tagName
-				})
-			}
+        if (tagExists) {            
+          this.tagExistsError = true
+        } else {
+          this.newTag = ''
+          this.clearValidation()
+          document.querySelector('#newTagInput').value = ''
+          document.querySelector('#newTagInput').blur()
+          autosizeInput(document.querySelector('#newTagInput'))
+          store.commit('addNewTag', {
+            setup: tagSetup,
+            name: tagName
+          })
+        }
+      }
 		}
   },
   watch: {

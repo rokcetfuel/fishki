@@ -13,6 +13,9 @@
               type="text" class="settings-input-fake" v-model="currentSetup.name" />
           </span>
         </li>
+        <li class="settings-card-line settings-card-line-error" v-if="nameChangeError">
+          <span>Setup name can't be empty</span>
+        </li>
         <li class="settings-card-line">
           <span class="settings-card-line-label">Phrases</span>
           <span class="settings-card-line-content">{{currentSetup.phrase}}</span>
@@ -36,8 +39,12 @@
           </li>
         </router-link>
         <li class="settings-card-line">
-          <span class="settings-card-line-content">
-            <button class="settings-card-line-button" @click="deleteSetup">Delete this setup</button>
+          <span v-if="deleteOpen" class="settings-card-line-content settings-card-line-content-buttons">
+            <button class="settings-card-line-button settings-card-line-button-grey" @click="closeDeleteSetup">Cancel</button>
+            <button class="settings-card-line-button" @click="deleteSetup">Confirm</button>
+          </span>
+          <span v-else class="settings-card-line-content">
+            <button class="settings-card-line-button" @click="openDeleteSetup">Delete this setup</button>
           </span>
         </li>
       </ul>
@@ -56,9 +63,9 @@
     </div>
 
     <div class="settings-card">
-      <div class="settings-card-title">
+      <div class="settings-card-title settings-card-title-click" @click="toggleCreate">
         <span>Create new setup</span>
-        <span @click="toggleCreate">
+        <span>
           <i v-if="createOpen" class="fas fa-angle-double-up"></i>
           <i v-else class="fas fa-angle-double-down"></i>
         </span>
@@ -67,22 +74,31 @@
         <li class="settings-card-line">
           <span class="settings-card-line-label">Name</span>
           <span class="settings-card-line-content">
-            <input type="text" class="settings-input-fake" v-model="newSetupName" placeholder="Name your setup"/>
+            <input @focus="clearNewErrors" type="text" class="settings-input-fake" v-model="newSetupName" placeholder="Name your setup"/>
           </span>
+        </li>
+        <li class="settings-card-line settings-card-line-error" v-if="newSetupNameError">
+          <span>Setup name can't be empty</span>
         </li>
         <li class="settings-card-line">
           <span class="settings-card-line-label">Phrases</span>
           <span class="settings-card-line-content">
-            <v-select :searchable="false" class="settings-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" 
+            <v-select @input="clearNewErrors" :searchable="false" class="settings-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="settings-card-line">
           <span class="settings-card-line-label">Translations</span>
           <span class="settings-card-line-content">
-            <v-select :searchable="false" class="settings-v-select" v-model="selectedTransLang" :options="translationLanguages" 
+            <v-select @input="clearNewErrors" :searchable="false" class="settings-v-select" v-model="selectedTransLang" :options="translationLanguages" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
+        </li>
+        <li class="settings-card-line settings-card-line-error" v-if="newSetupEmptyError">
+          <span>Choose both languages</span>
+        </li>
+        <li class="settings-card-line settings-card-line-error" v-if="newSetupSameError">
+          <span>Languages must be different</span>
         </li>
         <li class="settings-card-line">
           <span class="settings-card-line-label">Pronounciation</span>
@@ -158,6 +174,13 @@
         /* Diffent */
         Deselect: {render: createElement => createElement('span', '')},
         createOpen: false,
+        deleteOpen: false,
+        
+        /* Validator */
+        nameChangeError: false,
+        newSetupNameError: false,
+        newSetupSameError: false,
+        newSetupEmptyError: false,
       }
     },
     computed: {
@@ -192,18 +215,17 @@
       }
     },
     methods: {
-
-      toggleCreate() {
-        this.createOpen = !this.createOpen
-      },
-
       /* Editing setup name */
       getCurrentSetupOldName() {
-        this.setupName = this.currentSetup.name
+        if (this.currentSetup.name !== '') this.setupName = this.currentSetup.name
+        this.nameChangeError = false
       },
+
       editCurrentSetupName() {
-        if (this.setupName != this.currentSetup.name) {
-          console.log(this.setupName + ' > ' + this.currentSetup.name)
+        if (this.currentSetup.name == '') {
+          this.nameChangeError = true
+          this.currentSetup.name = this.setupName
+        } else if (this.setupName != this.currentSetup.name) {
           store.commit('editSetupName', {
             name: this.currentSetup.name,
             setup: store.state.current.id
@@ -237,7 +259,16 @@
             switchSetup: false
           })
         }
+        this.deleteOpen = false
         this.$router.push('/')
+      },
+
+      openDeleteSetup() {
+        this.deleteOpen = true
+      },
+
+      closeDeleteSetup() {
+        this.deleteOpen = false
       },
 
       /* Switching between setups */
@@ -248,21 +279,35 @@
 
       /* Adding a new setup */
       addNewSetup() {
-        if (this.selectedPhraseLang && this.selectedTransLang) {
-          let phraseLang = this.selectedPhraseLang.code
-          let transLang = this.selectedTransLang.code
-          if (phraseLang != transLang) {
-            let langSetupCode = `${transLang}-${phraseLang}`
-            let langSetupName = this.newSetupName
-            let langProno = this.newPronoEnabled
-            store.commit('addNewSetup', {
-              code: langSetupCode, 
-              name: langSetupName, 
-              prono: langProno
-            })
-            this.$router.push('/')
-          } 
-        }
+        if (this.newSetupName !== '') {
+          if (this.selectedPhraseLang && this.selectedTransLang) {
+            let phraseLang = this.selectedPhraseLang.code
+            let transLang = this.selectedTransLang.code
+            if (phraseLang != transLang) {
+              this.clearNewErrors()
+              let langSetupCode = `${transLang}-${phraseLang}`
+              let langSetupName = this.newSetupName
+              let langProno = this.newPronoEnabled
+              store.commit('addNewSetup', {
+                code: langSetupCode, 
+                name: langSetupName, 
+                prono: langProno
+              })
+              this.$router.push('/')
+            } else this.newSetupSameError = true
+          } else this.newSetupEmptyError = true
+        } else this.newSetupNameError = true
+      },
+
+      toggleCreate() {
+        this.createOpen = !this.createOpen
+        this.clearNewErrors()
+      },
+
+      clearNewErrors() {
+        this.newSetupEmptyError = false
+        this.newSetupNameError = false
+        this.newSetupSameError = false
       },
 
       /* For Vue Select */

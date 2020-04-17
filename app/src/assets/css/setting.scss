@@ -8,15 +8,19 @@
         padding: 5px 0;
 
         .settings-card-title {
-            font-weight: 700;
-            color: var(--nav);
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
+          font-weight: 700;
+          color: var(--nav);
+          padding: 10px 15px;
+          display: flex;
+          justify-content: space-between;
 
-            .fas {
-              cursor: pointer;
+          &.settings-card-title-click {
+            cursor: pointer;
+
+            &:hover {
+              opacity: 0.8;
             }
+          }
         }
 
         .settings-card-content {
@@ -39,6 +43,15 @@
                   } 
                 }
 
+                &.settings-card-line-error {
+                  justify-content: flex-end;
+
+                  span {
+                    color: var(--main);
+                    font-size: 12px;
+                  }
+                }
+
                 .settings-card-line-label {
                     font-weight: 700;
                     padding-right: 5px;
@@ -50,10 +63,20 @@
                     display: flex;
                     justify-content: flex-end;
 
+                    &.settings-card-line-content-buttons {
+                      button:nth-child(1) {
+                        margin-right: 5px;
+                      }
+
+                      button:nth-child(2) {
+                        margin-left: 5px;
+                      }
+                    }
+
                     .fas {
-                        display: inline-block;
-                        padding-left: 10px;
-                        color: var(--nav);
+                      display: inline-block;
+                      padding-left: 10px;
+                      color: var(--nav);
                     }
                     
                     .settings-input-fake {
@@ -91,6 +114,10 @@
                     color: var(--white);
                     padding: 12px;
                     font-weight: 600;
+
+                    &.settings-card-line-button-grey {
+                      background: var(--gradient-grey);
+                    }
                 }
             }
         }

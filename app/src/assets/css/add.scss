@@ -28,6 +28,15 @@
           align-items: center;
         }
 
+        &.add-card-line-error {
+          justify-content: flex-start;
+
+          span {
+            color: var(--main);
+            font-size: 12px;
+          }
+        }
+
         &:first-child {
           border-top: none;
         }
@@ -40,6 +49,18 @@
         .add-card-line-content {
           display: block;
           color: var(--mid-grey);
+
+          &.add-card-line-content-buttons {
+            display: flex; 
+            
+            button:nth-child(1) {
+              margin-right: 5px;
+            }
+
+            button:nth-child(2) {
+              margin-left: 5px;
+            }
+          }
 
           .add-tags {
             display: flex;
@@ -90,6 +111,10 @@
           color: var(--white);
           padding: 12px;
           font-weight: 600;
+
+          &.add-card-line-button-grey {
+            background: var(--gradient-grey);
+          }
         }
       }
     }
