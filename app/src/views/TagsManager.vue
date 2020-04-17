@@ -5,6 +5,10 @@
       <ul class="tags-m-card-content">
         <li class="tags-m-card-line tags-m-card-line-tags">
           <span class="tags-m-card-line-label">Tags</span>
+          <span class="tags-m-card-line-error">
+            <span v-if="emptyTagError">Tag can't be empty</span>
+            <span v-if="tagExistsError">This tag already exists</span>
+          </span>
           <span class="tags-m-card-line-content">
             <div class="tags-m-tags">
 
@@ -14,7 +18,7 @@
                 </div>
                 <div class="tag-inner">
                   <div class="tag-box">
-                    <input v-model="newTag" id="newTagInput" class="tag-box-input tagInput" type="text" placeholder="Add new tag" />
+                    <input @focus="clearValidation" v-model="newTag" id="newTagInput" class="tag-box-input tagInput" type="text" placeholder="Add new tag" />
                     <button @click="addTag" class="tag-box-submit">OK</button>
                   </div>
                 </div>
@@ -62,7 +66,10 @@
       return {
         newTag: '',
         tagsChanged: 0,
-        lastEditedTag: ''
+        lastEditedTag: '',
+
+        emptyTagError: false,
+        tagExistsError: false,
       }
     },
     computed: {
@@ -77,43 +84,59 @@
       isHover(e) {
         return (e.parentElement.querySelector(':hover') === e)
       },
+
+      clearValidation() {
+        this.emptyTagError = false
+        this.tagExistsError = false
+      },
+
       openDelete(tag, index) {
+        this.clearValidation()
         for (let thisTag of this.tags) thisTag.remove = false
         tag.remove = true
         Vue.set(this.tags, index, tag)
       },
+
       closeDelete(tag, index) {
         tag.remove = false
         Vue.set(this.tags, index, tag)
       },
+
       addTag() {
         let allTags = store.state.tags
         let tagSetup = store.state.current.id
         let tagName = this.newTag
         let tagExists = false
 
-        if (allTags) {
-          let allTagsNames = allTags.map((tag) => {return tag.name})
-          tagExists = allTagsNames.includes(tagName)
-        }
-
-        if (tagExists) {
-          console.log('Tag exists already...')
-          document.querySelector('#newTagInput').focus()
+        if (tagName == '') {
+          this.emptyTagError = true
         } else {
-          this.newTag = ''
-          document.querySelector('#newTagInput').value = ''
-          document.querySelector('#newTagInput').blur()
-          autosizeInput(document.querySelector('#newTagInput'))
-          store.commit('addNewTag', {
-            setup: tagSetup,
-            name: tagName
-          })
+          if (allTags) {
+            let allTagsNames = allTags.map((tag) => {return tag.name})
+            tagExists = allTagsNames.includes(tagName)
+          }
+
+          if (tagExists) {            
+            this.tagExistsError = true
+          } else {
+            this.newTag = ''
+            this.clearValidation()
+            document.querySelector('#newTagInput').value = ''
+            document.querySelector('#newTagInput').blur()
+            autosizeInput(document.querySelector('#newTagInput'))
+            store.commit('addNewTag', {
+              setup: tagSetup,
+              name: tagName
+            })
+          }
         }
       },
+
       watchEditFocus(tag, index) {
         this.lastEditedTag = tag.name
+        this.clearValidation()
       },
+
       watchEditBlur(tag, index) {
         let indexOfElement = parseInt(index) + 1
         let tagInput = document.getElementsByClassName('tagInput')[indexOfElement]
@@ -128,20 +151,56 @@
           }, 0)
         }
       },
-      editTag(tag, index) {
-        let name = tag.name
-        let tagid = tag.id
 
-        store.commit('editTag', {
-          name: name,
-          tagid: tagid
-        })
+      editTag(tag, index) {
+        let thisIndex = index
+        let allTags = store.state.tags.slice()
+        let allButThisTag = []
+        if (allTags) allButThisTag = allTags.filter((curTag, tagIndex) => tagIndex !== thisIndex)
+        let tagSetup = store.state.current.id
+        let tagName = tag.name
+        let tagId = tag.id
+        let tagExists = false
+
+        if (tagName == '') {
+          let indexOfElement = parseInt(index) + 1
+          tag.name = this.lastEditedTag
+          setTimeout(() => {
+            let tagInput2 = document.getElementsByClassName('tagInput')[indexOfElement]
+            autosizeInput(tagInput2)
+            this.emptyTagError = true
+          }, 0)
+        } else {
+          if (allTags) {
+            let allTagsNames = allButThisTag.map((tag) => {return tag.name})
+            tagExists = allTagsNames.includes(tagName)
+          }
+          if (tagExists) {            
+            let indexOfElement = parseInt(index) + 1
+            tag.name = this.lastEditedTag
+            setTimeout(() => {
+              let tagInput2 = document.getElementsByClassName('tagInput')[indexOfElement]
+              autosizeInput(tagInput2)
+              this.tagExistsError = true
+            }, 0)
+          } 
+          
+          
+          else {
+            this.clearValidation()
+            store.commit('editTag', {
+              name: tagName,
+              tagid: tagId
+            })
+          }
+        }
 
         let indexOfElement = parseInt(index) + 1
         let tagInput = document.getElementsByClassName('tagInput')[indexOfElement]
         tagInput.focus()
         tagInput.blur()
       },
+
       deleteTag(tag, index) {
         let tagid = tag.id
         store.commit('deleteTag', tagid)

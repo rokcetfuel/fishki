@@ -28,6 +28,15 @@
           align-items: center;
         }
 
+        &.add-card-line-error {
+          justify-content: flex-start;
+
+          span {
+            color: var(--main);
+            font-size: 12px;
+          }
+        }
+
         &:first-child {
           border-top: none;
         }

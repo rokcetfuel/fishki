@@ -43,6 +43,15 @@
                   } 
                 }
 
+                &.settings-card-line-error {
+                  justify-content: flex-end;
+
+                  span {
+                    color: var(--main);
+                    font-size: 12px;
+                  }
+                }
+
                 .settings-card-line-label {
                     font-weight: 700;
                     padding-right: 5px;

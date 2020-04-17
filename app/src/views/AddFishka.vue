@@ -9,9 +9,15 @@
             <i class="fas fa-keyboard"></i>
           </span>
           <span class="add-card-line-content add-quick-fish-top-wait">
-            <textarea-autosize class="add-input-fake" 
+            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" 
             placeholder="Write the phrase in your source language..." v-model="fishQuick" />
           </span>
+        </li>
+        <li class="add-card-line add-card-line-error" v-if="quickFishError">
+          <span>Sorry there was an error with the connection. Try again or skip quick fishka this time.</span>
+        </li>
+        <li class="add-card-line add-card-line-error" v-if="quickFishEmptyError">
+          <span>Quick fishka can't be empty</span>
         </li>
         <li class="add-card-line add-quick-fish-confirm">
           <span class="add-card-line-content">
@@ -36,19 +42,19 @@
         <li class="add-card-line">
           <span class="add-card-line-label">Phrase</span>
           <span class="add-card-line-content">
-            <textarea-autosize class="add-input-fake" placeholder="Phrase..." v-model="fishPhrase" />
+            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Phrase..." v-model="fishPhrase" />
           </span>
         </li>
         <li class="add-card-line">
           <span class="add-card-line-label">Translation</span>
           <span class="add-card-line-content">
-            <textarea-autosize class="add-input-fake" placeholder="Translation..." v-model="fishTrans" />
+            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Translation..." v-model="fishTrans" />
           </span>
         </li>
         <li v-if="pronoOn" class="add-card-line">
           <span class="add-card-line-label">Pronounciation</span>
           <span class="add-card-line-content">
-            <textarea-autosize class="add-input-fake" placeholder="Pronounciation..." v-model="fishProno" />
+            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Pronounciation..." v-model="fishProno" />
           </span>
         </li>
         <li class="add-card-line add-card-line-tags">
@@ -59,7 +65,7 @@
               <div class="tag tag-new">
                 <div class="tag-inner">
                   <div class="tag-box">
-                    <input class="tag-box-input" id="newTagInput" autocomplete="off" type="text" v-model="newTag" placeholder="New tag?" />
+                    <input @focus="clearValidation" class="tag-box-input" id="newTagInput" autocomplete="off" type="text" v-model="newTag" placeholder="New tag?" />
                     <button class="tag-box-submit" @click="addNewTag">OK</button>
                   </div>
                 </div>
@@ -67,7 +73,7 @@
 
               <div class="tag" v-for="tag in currentSetupTags" :key="tag.id">
                 <div class="tag-inner">
-                  <input class="tag-input" :value="tag.id" v-model="fishTags" type="checkbox"/>
+                  <input @focus="clearValidation" class="tag-input" :value="tag.id" v-model="fishTags" type="checkbox"/>
                   <div class="tag-box">
                     <span>{{tag.name}}</span>
                   </div>
@@ -76,6 +82,15 @@
 
             </div>
           </span>
+        </li>
+        <li class="add-card-line add-card-line-error" v-if="tagExistsError">
+          <span>Tag already exists</span>
+        </li>
+        <li class="add-card-line add-card-line-error" v-if="emptyTagError">
+          <span>Tag can't be empty</span>
+        </li>
+        <li class="add-card-line add-card-line-error" v-if="emptyFishError">
+          <span>Phrase and translation can't be empty</span>
         </li>
         <li class="add-card-line">
           <span class="add-card-line-content">
@@ -107,7 +122,6 @@
     data: () => { 
       return {
         quickFishFilled: false,
-        quickFishError: false,
         fishQuick: '',
         fishPhrase: '',
         fishTrans: '',
@@ -118,6 +132,12 @@
         onLine: null,
         onlineSlot: 'online',
         offlineSlot: 'offline',
+
+        emptyFishError: false,
+        emptyTagError: false,
+        tagExistsError: false,
+        quickFishError: false,
+        quickFishEmptyError: false,
       }
     },
     beforeMount: function () {
@@ -140,41 +160,58 @@
       }
     },
     methods: {
+      clearValidation() {
+        this.emptyFishError = false
+        this.emptyTagError = false
+        this.tagExistsError = false
+        this.quickFishError = false
+        this.quickFishEmptyError = false
+      },
+
       fillQuickFish() {
         let text = this.fishQuick
         let phraseLangCode = this.currentCode.substring(3, 5)
-        this.getTranslation(text, this.currentCode).then((result) => {
-          if (result) {
-            this.quickFishFilled = true
-            this.fishTrans = text
-            this.fishPhrase = result
-            if (phraseLangCode == 'zh') this.fishProno = pinyin(result, { keepRest: true })
-          } else {
-            // Deal with this during validation
-            // this.quickFishError = true
-            // Catch error???
-          }
-        })
+
+        if (text !== '') {
+          this.getTranslation(text, this.currentCode).then((result) => {
+            if (result) {
+              this.quickFishFilled = true
+              this.fishTrans = text
+              this.fishPhrase = result
+              if (phraseLangCode == 'zh') this.fishProno = pinyin(result, { keepRest: true })
+            } else {
+              this.quickFishError = true
+            }
+          })
+        } else {
+          this.quickFishEmptyError = true
+        }
       },
+
       reopenQuickFish() {
         this.quickFishFilled = false
       },
+
       addNewFish() {
         let setup = store.state.current.id
         let phrase = this.fishPhrase
         let trans = this.fishTrans
         let prono = this.fishProno
         let tags = this.fishTags
-        
-        store.commit('addNewFish', {
-          setup: setup,
-          phrase: phrase,
-          trans: trans,
-          prono: prono,
-          tags: tags
-        })
 
-        this.$router.push('/')
+        if (phrase == '' || trans == '') {
+          this.emptyFishError = true
+        } else {
+          this.emptyFishError = false
+          store.commit('addNewFish', {
+            setup: setup,
+            phrase: phrase,
+            trans: trans,
+            prono: prono,
+            tags: tags
+          })
+          this.$router.push('/')
+        }
       },
       addNewTag() {
         let allTags = store.state.tags
@@ -182,28 +219,29 @@
         let tagName = this.newTag
         let tagExists = false
 
-        if (allTags) {
-          let allTagsNames = allTags.map((tag) => {return tag.name})
-          tagExists = allTagsNames.includes(tagName)
-        }
-
-        if (tagExists) {
-          console.log('Tag exists already...')
-          document.querySelector('#newTagInput').focus()
+        if (tagName == '') {
+          this.emptyTagError = true
         } else {
-          this.newTag = ''
-          document.querySelector('#newTagInput').value = ''
-          document.querySelector('#newTagInput').blur()
-          autosizeInput(document.querySelector('#newTagInput'))
-          store.commit('addNewTag', {
-            setup: tagSetup,
-            name: tagName
-          })
+          if (allTags) {
+            let allTagsNames = allTags.map((tag) => {return tag.name})
+            tagExists = allTagsNames.includes(tagName)
+          }
+
+          if (tagExists) {            
+            this.tagExistsError = true
+          } else {
+            this.newTag = ''
+            this.clearValidation()
+            document.querySelector('#newTagInput').value = ''
+            document.querySelector('#newTagInput').blur()
+            autosizeInput(document.querySelector('#newTagInput'))
+            store.commit('addNewTag', {
+              setup: tagSetup,
+              name: tagName
+            })
+          }
         }
       },
-      getAddTranslation() {
-
-      }
     }
   }
 </script>

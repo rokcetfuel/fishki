@@ -247,6 +247,13 @@
                     padding-right: 5px;
                 }
 
+                .tags-m-card-line-error {
+                  display: block;
+                  padding: 5px 0 0 0;
+                  font-size: 13px;
+                  color: var(--main);
+                }
+
                 .tags-m-card-line-content {
                     display: block;
                     color: var(--mid-grey);
