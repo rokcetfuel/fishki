@@ -36,8 +36,12 @@
           </li>
         </router-link>
         <li class="settings-card-line">
-          <span class="settings-card-line-content">
-            <button class="settings-card-line-button" @click="deleteSetup">Delete this setup</button>
+          <span v-if="deleteOpen" class="settings-card-line-content settings-card-line-content-buttons">
+            <button class="settings-card-line-button settings-card-line-button-grey" @click="closeDeleteSetup">Cancel</button>
+            <button class="settings-card-line-button" @click="deleteSetup">Confirm</button>
+          </span>
+          <span v-else class="settings-card-line-content">
+            <button class="settings-card-line-button" @click="openDeleteSetup">Delete this setup</button>
           </span>
         </li>
       </ul>
@@ -56,9 +60,9 @@
     </div>
 
     <div class="settings-card">
-      <div class="settings-card-title">
+      <div class="settings-card-title settings-card-title-click" @click="toggleCreate">
         <span>Create new setup</span>
-        <span @click="toggleCreate">
+        <span>
           <i v-if="createOpen" class="fas fa-angle-double-up"></i>
           <i v-else class="fas fa-angle-double-down"></i>
         </span>
@@ -158,6 +162,7 @@
         /* Diffent */
         Deselect: {render: createElement => createElement('span', '')},
         createOpen: false,
+        deleteOpen: false,
       }
     },
     computed: {
@@ -237,7 +242,16 @@
             switchSetup: false
           })
         }
+        this.deleteOpen = false
         this.$router.push('/')
+      },
+
+      openDeleteSetup() {
+        this.deleteOpen = true
+      },
+
+      closeDeleteSetup() {
+        this.deleteOpen = false
       },
 
       /* Switching between setups */

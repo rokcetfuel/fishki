@@ -68,8 +68,12 @@
 							</span>
 						</li>
 						<li class="add-card-line">
-							<span class="add-card-line-content">
-							<button @click="deleteFish" class="add-card-line-button">Delete fishka</button>
+              <span v-if="deleteOpen" class="add-card-line-content add-card-line-content-buttons">
+							  <button @click="closeDeleteFish" class="add-card-line-button add-card-line-button-grey">Cancel</button>
+                <button @click="deleteFish" class="add-card-line-button">Confirm</button>
+							</span>
+							<span v-else class="add-card-line-content">
+							  <button @click="openDeleteFish" class="add-card-line-button">Delete fishka</button>
 							</span>
 						</li>
 					</ul>
@@ -95,7 +99,8 @@ export default {
 		return {
       newTag: '',
       tagsChanged: 0,
-      editedFishka: false
+      editedFishka: false,
+      deleteOpen: false,
 		}
 	},
 	computed: {
@@ -133,12 +138,23 @@ export default {
 			})
 
 			this.$router.push('/')
-		},
+    },
+    
 		deleteFish() {
 			let fishid = this.id
-			store.commit('deleteFish', fishid)
-			this.$router.push('/')
-		},
+      store.commit('deleteFish', fishid)
+      this.deleteOpen = false
+      this.$router.push('/')
+    },
+    
+    openDeleteFish() {
+      this.deleteOpen = true
+    },
+
+    closeDeleteFish() {
+      this.deleteOpen = false
+    },
+
 		addNewTag() {
 			let allTags = store.state.tags
 			let tagSetup = store.state.current.id
