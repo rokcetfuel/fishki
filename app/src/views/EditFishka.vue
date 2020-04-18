@@ -1,6 +1,6 @@
 <template>
-	<div class="home view">
-		<div class="home-container">
+	<div class="edit view">
+		<div class="edit-container">
 			<div class="single-fish add" v-if="fishka">
 				<div class="add-card">
 					<ul class="add-card-content">
@@ -205,6 +205,15 @@ export default {
             setup: tagSetup,
             name: tagName
           })
+
+          let lastid = 0
+          if (document.querySelector('.tag-input')) lastid = parseInt(document.querySelector('.tag-input').value)
+          
+          setTimeout(() => {
+            let tagid = parseInt(document.querySelector('.tag-input').value)
+            if (tagid > lastid) this.editedFishka.tags.push(tagid)
+          }, 100)
+          
         }
       }
 		}
@@ -212,6 +221,11 @@ export default {
   watch: {
     // autosizeInput
     tagsChanged() {
+      if (document.querySelector('#newTagInput')) {
+        autosizeInput(document.querySelector('#newTagInput'))
+      }
+    },
+    editedFishka() {
       if (document.querySelector('#newTagInput')) {
         autosizeInput(document.querySelector('#newTagInput'))
       }

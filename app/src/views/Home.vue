@@ -4,7 +4,7 @@
       <Sort v-if="sortingOpen"></Sort>
       <Fishka v-for="fish in allFish" :key="fish.id" :id="fish.id"></Fishka>
 
-      <div v-if="nothingHere">
+      <div v-if="nothingHere" class="fish-container">
         <div class="fish">
           <div class="fish-inner">
             <div class="fish-empty">
@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div v-if="nothingHereYet">
+      <div v-if="nothingHereYet" class="fish-container">
         <div class="fish">
           <router-link class="fish-inner" to="/add">
             <div class="fish-empty">

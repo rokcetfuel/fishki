@@ -1,3 +1,27 @@
+
+.view.home {
+  max-width: 800px;
+  margin: auto;
+
+  .home-quote {
+    width: 100%;
+  }
+
+  @media (min-width: 600px) {
+    .home-all {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .fish-container {
+      width: 50%;
+      padding: 10px;
+    }
+  }
+}
+
 .quote {
   margin: 30px 30px 0;
   opacity: 0;

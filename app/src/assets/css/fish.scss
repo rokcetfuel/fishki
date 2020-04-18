@@ -1,12 +1,21 @@
+.fish-container {
+  padding: 15px 15px 0px 15px;
+}
+
 .fish {
     box-shadow: var(--shadow);
     background: var(--white);
     border-radius: 25px;
-    margin: 15px 15px 0px 15px;
     padding: 15px;
+    height: 100%;
 
     .fish-inner {
-        text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
     }
 
     .fish-phrase {
@@ -50,16 +59,19 @@
 
       .fish-emtpty-header {
         display: block;
-        font-size: 24px;
+        font-size: 22px;
         color: var(--nav-dark);
         padding-bottom: 6px;
+        font-weight: 600;
+        letter-spacing: -1px;
       }
 
       .fish-emtpty-text {
         display: block;
-        font-size: 16px;
+        font-size: 14px;
         color: var(--small);
         padding-bottom: 2px;
+        font-weight: 300;
       }
     }
 }

@@ -16,6 +16,11 @@ body {
   background: #e5c6c7;
 }
 
+input::placeholder {
+  color: var(--small);
+  font-weight: 300;
+}
+
 a, button {
   text-decoration: none;
   color: var(--black);
@@ -70,6 +75,8 @@ ul {
 .view {
   padding-top: var(--header);
   padding-bottom: 15px;
+  max-width: 600px;
+  margin: auto;
 }
 
 .app-background {

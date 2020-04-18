@@ -10,7 +10,8 @@
         .settings-card-title {
           font-weight: 700;
           color: var(--nav);
-          padding: 10px 15px;
+          padding: 12px 15px;
+          font-size: 18px;
           display: flex;
           justify-content: space-between;
 
@@ -55,6 +56,13 @@
                 .settings-card-line-label {
                     font-weight: 700;
                     padding-right: 5px;
+
+                    small {
+                      color: var(--small);
+                      display: block;
+                      font-size: 11px;
+                      font-weight: 400;
+                    }
                 }
 
                 .settings-card-line-content {

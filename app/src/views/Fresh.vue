@@ -12,19 +12,25 @@
           </span>
         </li>
         <li class="fresh-card-line">
-          <span class="fresh-card-line-label">Phrases</span>
+          <span class="fresh-card-line-label">
+            <span>I want to learn</span>
+            <small>Phrases</small>
+          </span>
           <span class="fresh-card-line-content">
             <v-select :searchable="false" class="fresh-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="fresh-card-line">
-          <span class="fresh-card-line-label">Translations</span>
+          <span class="fresh-card-line-label">
+            <span>I can speak</span>
+            <small>Translations</small>
+          </span>
           <span class="fresh-card-line-content">
             <v-select :searchable="false" class="fresh-v-select" v-model="selectedTransLang" :options="translationLanguages" :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="fresh-card-line">
-          <span class="fresh-card-line-label">Pronounciation</span>
+          <span class="fresh-card-line-label">Save pronunciation?</span>
           <span class="fresh-card-line-content">
             <switches v-model="newPronoEnabled" color="pink" theme="fish"></switches>
           </span>

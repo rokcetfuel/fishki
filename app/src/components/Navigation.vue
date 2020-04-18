@@ -42,6 +42,7 @@ export default {
     },
     openSorting() {
       store.commit('setSorting', true)
+      window.scrollTo({top: 0, behavior: 'smooth'})
     }
   } 
 }

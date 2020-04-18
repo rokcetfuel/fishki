@@ -139,7 +139,7 @@ export default new Vuex.Store({
                 let currentFish = fish.filter(fishka => fishka.setup === currentData.id)
                 if (currentFish.length > 0) state.fish = currentFish
                 else state.fish = []
-              }
+              } else state.fish = []
             })
   
             db.table('tags').toArray().then((tags) => {
@@ -147,7 +147,7 @@ export default new Vuex.Store({
                 let currentTags = tags.filter(tag => tag.setup === currentData.id)
                 if (currentTags.length > 0) state.tags = currentTags
                 else state.tags = []
-              }
+              } else state.tags = []
             })
           })
         })

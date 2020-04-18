@@ -239,6 +239,14 @@
               setup: tagSetup,
               name: tagName
             })
+
+            let lastid = 0
+            if (document.querySelector('.tag-input')) lastid = parseInt(document.querySelector('.tag-input').value)
+            
+            setTimeout(() => {
+              let tagid = parseInt(document.querySelector('.tag-input').value)
+              if (tagid > lastid) this.fishTags.push(tagid)
+            }, 100)
           }
         }
       },

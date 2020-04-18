@@ -1,16 +1,18 @@
 <template>
-  <div class="fish">
-    <router-link class="fish-inner" v-bind:to="'/fishka/' + id">
-      <div class="fish-phrase">
-        <span>{{fishka.phrase}}</span>
-      </div>
-      <div v-if="pronoOn" class="fish-prono">
-        <span>{{fishka.prono}}</span>
-      </div>
-      <div class="fish-trans">
-        <span>{{fishka.trans}}</span>
-      </div>
-    </router-link>
+  <div class="fish-container">
+    <div class="fish">
+      <router-link class="fish-inner" v-bind:to="'/fishka/' + id">
+        <div class="fish-phrase">
+          <span>{{fishka.phrase}}</span>
+        </div>
+        <div v-if="pronoOn" class="fish-prono">
+          <span>{{fishka.prono}}</span>
+        </div>
+        <div class="fish-trans">
+          <span>{{fishka.trans}}</span>
+        </div>
+      </router-link>
+    </div>
   </div>
 </template>
 

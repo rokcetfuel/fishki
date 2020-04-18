@@ -17,11 +17,17 @@
           <span>Setup name can't be empty</span>
         </li>
         <li class="settings-card-line">
-          <span class="settings-card-line-label">Phrases</span>
+          <span class="settings-card-line-label">
+            <span>I want to learn</span>
+            <small>Phrases</small>
+          </span>
           <span class="settings-card-line-content">{{currentSetup.phrase}}</span>
         </li>
         <li class="settings-card-line">
-          <span class="settings-card-line-label">Translations</span>
+          <span class="settings-card-line-label">
+            <span>I can speak</span>
+            <small>Translations</small>
+          </span>
           <span class="settings-card-line-content">{{currentSetup.trans}}</span>
         </li>
         <li class="settings-card-line">
@@ -81,14 +87,20 @@
           <span>Setup name can't be empty</span>
         </li>
         <li class="settings-card-line">
-          <span class="settings-card-line-label">Phrases</span>
+          <span class="settings-card-line-label">
+            <span>I want to learn</span>
+            <small>Phrases</small>
+          </span>
           <span class="settings-card-line-content">
             <v-select @input="clearNewErrors" :searchable="false" class="settings-v-select" v-model="selectedPhraseLang" :options="phraseLanguages" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
           </span>
         </li>
         <li class="settings-card-line">
-          <span class="settings-card-line-label">Translations</span>
+          <span class="settings-card-line-label">
+            <span>I can speak</span>
+            <small>Translations</small>
+          </span>
           <span class="settings-card-line-content">
             <v-select @input="clearNewErrors" :searchable="false" class="settings-v-select" v-model="selectedTransLang" :options="translationLanguages" 
               :components="{Deselect}" append-to-body :calculate-position="withPopper"></v-select>
