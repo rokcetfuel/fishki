@@ -30,6 +30,38 @@
             </div>
           </span>
         </li>
+
+        <li class="sort-card-line sort-card-line-tags">
+          <span class="sort-card-line-label">Display</span>
+          <span class="sort-card-line-content">
+            <div class="sort-tags">
+              <div class="tag">
+                <div class="tag-inner">
+                  <input :disabled="disablePhrases" class="tag-input" :value="1" v-model="selectedHiding" name="selectHiding" type="checkbox"/>
+                  <div class="tag-box">
+                    <span>Phrases</span>
+                  </div>
+                </div>
+              </div>
+              <div class="tag">
+                <div class="tag-inner">
+                  <input :disabled="disableTranslation" class="tag-input" :value="2" v-model="selectedHiding" name="selectHiding" type="checkbox"/>
+                  <div class="tag-box">
+                    <span>Translations</span>
+                  </div>
+                </div>
+              </div>
+              <div v-if="pronoOn" class="tag">
+                <div class="tag-inner">
+                  <input :disabled="disablePronunciation" class="tag-input" :value="3" v-model="selectedHiding" name="selectHiding" type="checkbox"/>
+                  <div class="tag-box">
+                    <span>Pronunciation</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+        </li>
         <li class="sort-card-line">
           <span class="sort-card-line-content">
             <button class="sort-card-line-button sort-card-line-close" @click="closeSort">Cancel</button>
@@ -121,6 +153,22 @@ export default {
       get() {return store.state.selectedTags.slice()},
       set(selected) {store.commit('sortByTags', selected)}
     },
+    selectedHiding: {
+      get() {return store.state.hiding.slice()},
+      set(selected) {store.commit('setHiding', selected)}
+    },
+    disablePhrases() {
+      if (this.selectedHiding.length == 1 && this.selectedHiding.includes(1)) return true
+      else return false
+    },
+    disableTranslation() {
+      if (this.selectedHiding.length == 1 && this.selectedHiding.includes(2)) return true
+      else return false
+    },
+    disablePronunciation() {
+      if (this.selectedHiding.length == 1 && this.selectedHiding.includes(3)) return true
+      else return false
+    }
   },
   methods: {
     switchSort() {

@@ -7,7 +7,9 @@
         <Fresh></Fresh>
       </div>
       <div v-else>
-        <router-view/>
+        <vue-page-transition name="fade">
+          <router-view/>
+        </vue-page-transition>
       </div>
     </div>
     <div v-else class="loading"></div>
@@ -16,6 +18,9 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+  import VuePageTransition from 'vue-page-transition'
+  Vue.use(VuePageTransition)
   import store from '@/store'
   import Navigation from '@/components/Navigation.vue'
   import Header from '@/components/Header.vue'

@@ -22,6 +22,10 @@
             &:checked ~ .tag-box {
               background: var(--main-gradient);
             }
+
+            &[disabled=disabled] ~ .tag-box {
+              background: #888;
+            }
         }
 
         .tag-box {

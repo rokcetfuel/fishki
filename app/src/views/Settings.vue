@@ -138,7 +138,7 @@
         </li>
         <li class="settings-card-line">
           <span class="settings-card-line-content-inline">
-           Visit <a href="#">Homepage</a>
+           Visit <a href="https://rokcetfuel.github.io/fishki/">Homepage</a>
           </span>
         </li>
         <li class="settings-card-line">

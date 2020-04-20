@@ -16,23 +16,28 @@
       align-items: center;
       height: 100%;
       text-align: center;
+      padding: 2px;
     }
 
     .fish-phrase {
-        font-size: 32px;
-        color: var(--nav-dark);
-        padding-bottom: 8px;
+      font-size: 32px;
+      color: var(--nav-dark);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      padding: 4px;
     }
 
     .fish-prono {
-        font-size: 12px;
-        color: var(--small);
-        padding-bottom: 6px;
+      padding: 2px;
+      font-size: 14px;
+      color: var(--small);
     }
 
     .fish-trans {
-        font-size: 18px;
-        color: var(--text);
+      padding: 4px;
+      font-size: 18px;
+      color: var(--text);
     }
 
     .fish-tags {

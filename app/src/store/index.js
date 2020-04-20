@@ -23,7 +23,8 @@ export default new Vuex.Store({
     selectedTags: [],
     finalSelectedTags: [],
     quote: false,
-    firstQuote: true
+    firstQuote: true,
+    hiding: []
   },
   mutations: {
 
@@ -43,6 +44,9 @@ export default new Vuex.Store({
 
               let currentSetup = setups.filter(setup => setup.id === currentData.id)[0]
               state.prono = currentSetup.prono
+
+              if (state.prono) state.hiding = [1, 2, 3]
+              else state.hiding = [1, 2]
 
               db.table('fish').toArray().then((fish) => {
                 if (fish.length > 0) {
@@ -104,6 +108,11 @@ export default new Vuex.Store({
       state.finalSelectedTags = tags
     },
 
+    /* Set hiding */
+    /* Views: Home */
+    setHiding(state, hide) {
+      state.hiding = hide
+    },
 
     /* Reverse Sort */
     /* Views: Home */
@@ -133,6 +142,9 @@ export default new Vuex.Store({
             let currentData = {'id': id, 'code': code}
             state.current = currentData
             state.prono = prono
+
+            if (state.prono) state.hiding = [1, 2, 3]
+            else state.hiding = [1, 2]
 
             db.table('fish').toArray().then((fish) => {
               if (fish.length > 0) {
@@ -184,6 +196,9 @@ export default new Vuex.Store({
         let currentSetupPosition = state.setups.map((thatSetup) => {return thatSetup.id}).indexOf(setup)
         state.setups[currentSetupPosition].prono = newProno
         state.prono = newProno
+
+        if (state.prono) state.hiding = [1, 2, 3]
+        else state.hiding = [1, 2]
       })
     },
 
@@ -206,6 +221,9 @@ export default new Vuex.Store({
           let currentData = {'id': setup, 'code': newSetupCode}
           state.current = currentData
           state.prono = newSetup.prono
+
+          if (state.prono) state.hiding = [1, 2, 3]
+          else state.hiding = [1, 2]
 
           db.table('fish').toArray().then((fish) => {
             if (fish.length > 0) {
@@ -249,6 +267,10 @@ export default new Vuex.Store({
                 let setup = payload.switchTo
                 let newSetup = state.setups.filter(thatSetup => thatSetup.id === setup)
                 let newSetupCode = newSetup[0].code
+
+                state.prono = newSetup[0].prono
+                if (state.prono) state.hiding = [1, 2, 3]
+                else state.hiding = [1, 2]
                 
                 db.table('current').put({'id': setup, 'code': newSetupCode}).then(() => {
                   let currentData = {'id': setup, 'code': newSetupCode}
