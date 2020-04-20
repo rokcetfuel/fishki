@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Black Jack';
-  src: url('../fonts/blackjack.woff') format('woff'),
-      url('../fonts/blackjack.ttf') format('truetype'),
-      url('../fonts/blackjack.eot') format('embedded-opentype');
+  src: url('./fonts/blackjack.woff') format('woff'),
+      url('./fonts/blackjack.ttf') format('truetype'),
+      url('./fonts/blackjack.eot') format('embedded-opentype');
   font-weight: normal;
   font-style: normal;
 }
