@@ -7,6 +7,7 @@ module.exports = {
     msTileColor: '#c47f7f',
     manifestOptions: {
       background_color: "#FFFFFF"
-    }
+    },
+    workboxPluginMode: 'GenerateSW',
   }
 }
