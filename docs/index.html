@@ -7,8 +7,9 @@
     <link rel="icon" href="favicon.ico">
 
     <!-- Dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.0.slim.min.js" integrity="sha256-MlusDLJIP1GRgLrOflUQtshyP0TwT/RHXsI1wWGnQhs=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="vendor/lightbox/lightbox.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <!-- Style -->
     <link rel="stylesheet" href="style.css">
@@ -21,22 +22,6 @@
         <div class="col header-container">
           <div class="logo">
             fishki
-          </div>
-          <div class="menu">
-            <ul>
-              <li>
-                <a>Home</a>
-              </li>
-              <li>
-                <a>Features</a>
-              </li>
-              <li>
-                <a>Resources</a>
-              </li>
-              <li>
-                <a>Gallery</a>
-              </li>
-            </ul>
           </div>
         </div>
       </header>
@@ -85,6 +70,24 @@
 
       </div>
 
+      <div class="row features">
+        <div class="col">
+          <div class="one-feature">
+            <h2>Current features</h2>
+            <h4>Version 1.0</h4>
+            <div class="features-list">
+              <ul>
+                <li><strong>a)</strong> Create multiple sets of Fishki for different languages</li>
+                <li><strong>b)</strong> Add, remove or edit Fishki or try our quick translations</li>
+                <li><strong>c)</strong> Tag fishki to split them up in categories for the ease of browsing</li>
+                <li><strong>d)</strong> Use our special Chinese enchancement - get the pronuciation right away</li>
+                <li><strong>e)</strong> Hide the answers to test your knowledge</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Links -->
       <div class="row resources">
         <div class="col">
@@ -105,18 +108,26 @@
 
       <!-- Gallery -->
       <div class="row gallery">
-        <div class="col">Gallery</div>
+        <div class="col">
+          <div class="func-gallery">
+
+            <a class="func-gallery_element" href="images/start.png">
+              <img src="images/start.png" alt="" title="Landing page" />
+              <p>Start</p>
+            </a>
+
+          </div>
+        </div>
       </div>
 
       <!-- Footer: Authors -->
       <footer class="row">
-        <div class="col-sm-6">Fishki is a language learning app developed at Cracow University of Economics by Kamila Kot, Joanna Ginda and Tomasz Karczewski.</div>
-        <div class="col-sm-3">ok</div>
-        <div class="col-sm-3">ok</div>
+        <div class="col-sm-6">Fishki is a language learning app developed at Cracow University of Economics by <strong>Kamila Kot</strong>, <strong>Joanna Ginda</strong> and <strong>Tomasz Karczewski.</strong></div>
       </footer>
     </div>
 
     <!-- Scripts -->
+    <script src="vendor/lightbox/lightbox.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
