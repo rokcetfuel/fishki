@@ -7,19 +7,19 @@
 						<li class="add-card-line">
 							<span class="add-card-line-label">Phrase</span>
 							<span class="add-card-line-content">
-								<textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Phrase..." v-model="editedFishka.phrase"/>
+								<textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Phrase..." v-model="editedFishka.phrase"/>
 							</span>
 						</li>
 						<li class="add-card-line">
 							<span class="add-card-line-label">Translation</span>
 							<span class="add-card-line-content">
-								<textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Translation..." v-model="editedFishka.trans"/>
+								<textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Translation..." v-model="editedFishka.trans"/>
 							</span>
 						</li>
 						<li v-if="pronoOn" class="add-card-line">
-							<span class="add-card-line-label">Pronounciation</span>
+							<span class="add-card-line-label">Pronunciation</span>
 							<span class="add-card-line-content">
-								<textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Pronounciation..."  v-model="editedFishka.prono"/>
+								<textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Pronunciation..."  v-model="editedFishka.prono"/>
 							</span>
 						</li>
 						<li class="add-card-line add-card-line-tags">
@@ -29,7 +29,7 @@
 									<div class="tag tag-new">
 										<div class="tag-inner">
 											<div class="tag-box">
-												<input @focus="clearValidation" class="tag-box-input" id="newTagInput" autocomplete="off" 
+												<input spellcheck="false" @focus="clearValidation" class="tag-box-input" id="newTagInput" autocomplete="off" 
 													type="text" v-model="newTag" placeholder="New tag?" />
 												<button class="tag-box-submit" @click="addNewTag">OK</button>
 											</div>

@@ -9,7 +9,7 @@
             <i class="fas fa-keyboard"></i>
           </span>
           <span class="add-card-line-content add-quick-fish-top-wait">
-            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" 
+            <textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" 
             placeholder="Write the phrase in your source language..." v-model="fishQuick" />
           </span>
         </li>
@@ -42,19 +42,19 @@
         <li class="add-card-line">
           <span class="add-card-line-label">Phrase</span>
           <span class="add-card-line-content">
-            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Phrase..." v-model="fishPhrase" />
+            <textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Phrase..." v-model="fishPhrase" />
           </span>
         </li>
         <li class="add-card-line">
           <span class="add-card-line-label">Translation</span>
           <span class="add-card-line-content">
-            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Translation..." v-model="fishTrans" />
+            <textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Translation..." v-model="fishTrans" />
           </span>
         </li>
         <li v-if="pronoOn" class="add-card-line">
-          <span class="add-card-line-label">Pronounciation</span>
+          <span class="add-card-line-label">Pronunciation</span>
           <span class="add-card-line-content">
-            <textarea-autosize v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Pronounciation..." v-model="fishProno" />
+            <textarea-autosize spellcheck="false" v-on:focus.native="clearValidation" class="add-input-fake" placeholder="Pronunciation..." v-model="fishProno" />
           </span>
         </li>
         <li class="add-card-line add-card-line-tags">
