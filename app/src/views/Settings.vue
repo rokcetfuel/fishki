@@ -9,7 +9,7 @@
         <li class="settings-card-line">
           <span class="settings-card-line-label">Name</span>
           <span class="settings-card-line-content">
-            <input @focus="getCurrentSetupOldName" @blur="editCurrentSetupName" 
+            <input spellcheck="false" @focus="getCurrentSetupOldName" @blur="editCurrentSetupName" 
               type="text" class="settings-input-fake" v-model="currentSetup.name" />
           </span>
         </li>
@@ -31,7 +31,7 @@
           <span class="settings-card-line-content">{{currentSetup.trans}}</span>
         </li>
         <li class="settings-card-line">
-          <span class="settings-card-line-label">Pronounciation</span>
+          <span class="settings-card-line-label">Pronunciation</span>
           <span @click="editCurrentSetupProno" class="settings-card-line-content">
             <switches v-model="setupProno" color="pink" theme="fish"></switches>
             </span>
@@ -80,7 +80,7 @@
         <li class="settings-card-line">
           <span class="settings-card-line-label">Name</span>
           <span class="settings-card-line-content">
-            <input @focus="clearNewErrors" type="text" class="settings-input-fake" v-model="newSetupName" placeholder="Name your setup"/>
+            <input spellcheck="false" @focus="clearNewErrors" type="text" class="settings-input-fake" v-model="newSetupName" placeholder="Name your setup"/>
           </span>
         </li>
         <li class="settings-card-line settings-card-line-error" v-if="newSetupNameError">
@@ -113,7 +113,7 @@
           <span>Languages must be different</span>
         </li>
         <li class="settings-card-line">
-          <span class="settings-card-line-label">Pronounciation</span>
+          <span class="settings-card-line-label">Pronunciation</span>
           <span class="settings-card-line-content">
             <switches v-model="newPronoEnabled" color="pink" theme="fish"></switches>
           </span>

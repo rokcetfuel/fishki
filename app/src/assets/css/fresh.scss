@@ -26,6 +26,15 @@
                 padding: 12px 15px;
                 border-top: 1px solid var( --main-divider);
 
+                &.fresh-card-line-error {
+                  justify-content: flex-end;
+
+                  span {
+                    color: var(--main);
+                    font-size: 12px;
+                  }
+                }
+
                 .fresh-card-line-label {
                     font-weight: 700;
                     padding-right: 5px;
